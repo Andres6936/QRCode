@@ -10,7 +10,7 @@
                     james
                 </textarea>
             </div>
-            <script type="application/ecmascript" src="qrcode.js"></script>
+            <script type="application/ecmascript" src="QRCode.js"></script>
             <script type="application/ecmascript">
                 var elem = document.getElementById("qrcode");
                 var qrcode = new QRCode(elem, {
