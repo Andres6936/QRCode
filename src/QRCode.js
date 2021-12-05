@@ -19,12 +19,10 @@ function _isSupportCanvas() {
     return typeof CanvasRenderingContext2D != "undefined";
 }
 
-var svgDrawer = DrawingSVG;
-
-var useSVG = document.documentElement.tagName.toLowerCase() === "svg";
+const useSVG = document.documentElement.tagName.toLowerCase() === "svg";
 
 // Drawing in DOM by using Table tag
-var Drawing = useSVG ? svgDrawer : !_isSupportCanvas() ? DrawingHack : DrawingCanvas;
+let Drawing = useSVG ? DrawingSVG : !_isSupportCanvas() ? DrawingHack : DrawingCanvas;
 
 /**
  * Get the type by string length
@@ -128,7 +126,7 @@ export var QRCode = function (el, vOption) {
     }
 
     if (this._htOption.useSVG) {
-        Drawing = svgDrawer;
+        Drawing = DrawingSVG;
     }
 
     this._android = _getAndroid();
