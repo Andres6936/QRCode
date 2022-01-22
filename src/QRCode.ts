@@ -92,9 +92,10 @@ export class QRCode {
     };
 
     _android = undefined
-    _el = undefined
     _oQRCode = undefined
     _oDrawing = undefined
+
+    readonly _el: HTMLElement
 
     /**
      * @class QRCode
@@ -121,7 +122,7 @@ export class QRCode {
      * @param {String} [vOption.colorLight="#ffffff"]
      * @param {QRCode.CorrectLevel} [vOption.correctLevel=QRCode.CorrectLevel.H] [L|M|Q|H]
      */
-    constructor(el, vOption) {
+    constructor(el: HTMLElement, vOption) {
         if (typeof vOption === 'string') {
             vOption = {
                 text: vOption
@@ -133,10 +134,6 @@ export class QRCode {
             for (var i in vOption) {
                 this._htOption[i] = vOption[i];
             }
-        }
-
-        if (typeof el == "string") {
-            el = document.getElementById(el);
         }
 
         if (this._htOption.useSVG) {
