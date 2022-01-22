@@ -20,11 +20,6 @@ function _isSupportCanvas(): boolean {
     return typeof CanvasRenderingContext2D != "undefined";
 }
 
-const useSVG: boolean = document.documentElement.tagName.toLowerCase() === "svg";
-
-// Drawing in DOM by using Table tag
-let Drawing = useSVG ? DrawingSVG : !_isSupportCanvas() ? DrawingHack : DrawingCanvas;
-
 /**
  * Get the type by string length
  *
