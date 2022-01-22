@@ -14,13 +14,13 @@
 <script type="module">
     import {QRCode} from "./src/QRCode.js";
 
-    var qrcode = new QRCode(document.getElementById("qrcode"), {
+    const qrcode = new QRCode(document.getElementById("qrcode"), {
         width: 400,
         height: 400
     });
 
     function makeCode() {
-        var elText = document.getElementById("text");
+        const elText = document.getElementById("text");
 
         if (!elText.value) {
             alert("Input a text");
