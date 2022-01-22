@@ -3,3 +3,5 @@
 .idea
 .project
 node_modules/
+build/*.js
+build/*.js.map
