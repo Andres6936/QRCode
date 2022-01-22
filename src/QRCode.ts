@@ -95,7 +95,7 @@ export class QRCode {
     _oQRCode = undefined
     _oDrawing = undefined
 
-    readonly _el: HTMLElement
+    private readonly _el: HTMLElement
 
     /**
      * @class QRCode
