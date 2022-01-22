@@ -4,30 +4,39 @@ import {QRUtil} from "./QRUtil.js";
 import {QRBitBuffer} from "./QRBitBuffer.js";
 import {QRPolynomial} from "./QRPolynomial.js";
 
-export function QRCodeModel(typeNumber, errorCorrectLevel) {
-    this.typeNumber = typeNumber;
-    this.errorCorrectLevel = errorCorrectLevel;
-    this.modules = null;
-    this.moduleCount = 0;
-    this.dataCache = null;
-    this.dataList = [];
-}
+export class QRCodeModel {
 
-QRCodeModel.prototype = {
-    addData: function (data) {
+    constructor(typeNumber, errorCorrectLevel) {
+        this.typeNumber = typeNumber;
+        this.errorCorrectLevel = errorCorrectLevel;
+        this.modules = null;
+        this.moduleCount = 0;
+        this.dataCache = null;
+        this.dataList = [];
+    }
+
+    addData(data) {
         var newData = new QR8bitByte(data);
         this.dataList.push(newData);
         this.dataCache = null;
-    }, isDark: function (row, col) {
+    }
+
+    isDark(row, col) {
         if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
             throw new Error(row + "," + col);
         }
         return this.modules[row][col];
-    }, getModuleCount: function () {
+    }
+
+    getModuleCount() {
         return this.moduleCount;
-    }, make: function () {
+    }
+
+    make() {
         this.makeImpl(false, this.getBestMaskPattern());
-    }, makeImpl: function (test, maskPattern) {
+    }
+
+    makeImpl(test, maskPattern) {
         this.moduleCount = this.typeNumber * 4 + 17;
         this.modules = new Array(this.moduleCount);
         for (var row = 0; row < this.moduleCount; row++) {
@@ -49,7 +58,9 @@ QRCodeModel.prototype = {
             this.dataCache = QRCodeModel.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
         }
         this.mapData(this.dataCache, maskPattern);
-    }, setupPositionProbePattern: function (row, col) {
+    }
+
+    setupPositionProbePattern(row, col) {
         for (var r = -1; r <= 7; r++) {
             if (row + r <= -1 || this.moduleCount <= row + r) continue;
             for (var c = -1; c <= 7; c++) {
@@ -61,7 +72,9 @@ QRCodeModel.prototype = {
                 }
             }
         }
-    }, getBestMaskPattern: function () {
+    }
+
+    getBestMaskPattern() {
         var minLostPoint = 0;
         var pattern = 0;
         for (var i = 0; i < 8; i++) {
@@ -73,7 +86,9 @@ QRCodeModel.prototype = {
             }
         }
         return pattern;
-    }, createMovieClip: function (target_mc, instance_name, depth) {
+    }
+
+    createMovieClip(target_mc, instance_name, depth) {
         var qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
         var cs = 1;
         this.make();
@@ -93,7 +108,9 @@ QRCodeModel.prototype = {
             }
         }
         return qr_mc;
-    }, setupTimingPattern: function () {
+    }
+
+    setupTimingPattern() {
         for (var r = 8; r < this.moduleCount - 8; r++) {
             if (this.modules[r][6] != null) {
                 continue;
@@ -106,7 +123,9 @@ QRCodeModel.prototype = {
             }
             this.modules[6][c] = (c % 2 == 0);
         }
-    }, setupPositionAdjustPattern: function () {
+    }
+
+    setupPositionAdjustPattern() {
         var pos = QRUtil.getPatternPosition(this.typeNumber);
         for (var i = 0; i < pos.length; i++) {
             for (var j = 0; j < pos.length; j++) {
@@ -126,7 +145,9 @@ QRCodeModel.prototype = {
                 }
             }
         }
-    }, setupTypeNumber: function (test) {
+    }
+
+    setupTypeNumber(test) {
         var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
         for (var i = 0; i < 18; i++) {
             var mod = (!test && ((bits >> i) & 1) == 1);
@@ -136,7 +157,9 @@ QRCodeModel.prototype = {
             var mod = (!test && ((bits >> i) & 1) == 1);
             this.modules[i % 3 + this.moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
         }
-    }, setupTypeInfo: function (test, maskPattern) {
+    }
+
+    setupTypeInfo(test, maskPattern) {
         var data = (this.errorCorrectLevel << 3) | maskPattern;
         var bits = QRUtil.getBCHTypeInfo(data);
         for (var i = 0; i < 15; i++) {
@@ -160,7 +183,9 @@ QRCodeModel.prototype = {
             }
         }
         this.modules[this.moduleCount - 8][8] = (!test);
-    }, mapData: function (data, maskPattern) {
+    }
+
+    mapData(data, maskPattern) {
         var inc = -1;
         var row = this.moduleCount - 1;
         var bitIndex = 7;
@@ -195,7 +220,9 @@ QRCodeModel.prototype = {
             }
         }
     }
-};
+
+}
+
 QRCodeModel.PAD0 = 0xEC;
 QRCodeModel.PAD1 = 0x11;
 QRCodeModel.createData = function (typeNumber, errorCorrectLevel, dataList) {
