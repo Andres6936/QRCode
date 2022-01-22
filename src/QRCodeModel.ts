@@ -13,8 +13,8 @@ export class QRCodeModel {
     dataCache = null;
     dataList = [];
 
-    PAD0 = 0xEC;
-    PAD1 = 0x11;
+    private static readonly PAD0 = 0xEC;
+    private static readonly PAD1 = 0x11;
 
     constructor(typeNumber, errorCorrectLevel) {
         this.typeNumber = typeNumber;
