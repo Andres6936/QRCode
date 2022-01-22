@@ -14,6 +14,7 @@ import {QRCodeLimitLength} from "./QRCodeLimitLength.js";
 import {DrawingHack} from "./DrawerHack.js";
 import {_getAndroid, DrawingCanvas} from "./DrawingCanvas.js";
 import {DrawingSVG} from "./DrawingSVG.js";
+import {Render} from "./IDrawer";
 
 function _isSupportCanvas(): boolean {
     return typeof CanvasRenderingContext2D != "undefined";
@@ -92,7 +93,7 @@ export class QRCode {
     };
 
     private _android = undefined
-    private _oDrawing = undefined
+    private _oDrawing: Render
     private _oQRCode: QRCodeModel
     private readonly _el: HTMLElement
 
@@ -135,14 +136,20 @@ export class QRCode {
             }
         }
 
-        if (this._htOption.useSVG) {
-            Drawing = DrawingSVG;
-        }
-
         this._android = _getAndroid();
         this._el = el;
         this._oQRCode = null;
-        this._oDrawing = new Drawing(this._el, this._htOption);
+
+        if (this._htOption.useSVG) {
+            this._oDrawing = new DrawingSVG(this._el, this._htOption);
+        } else {
+            if (_isSupportCanvas()) {
+                this._oDrawing = new DrawingCanvas(this._el, this._htOption);
+            } else {
+                this._oDrawing = new DrawingHack(this._el, this._htOption);
+            }
+        }
+
 
         if (this._htOption.text) {
             this.makeCode(this._htOption.text);

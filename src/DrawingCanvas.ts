@@ -1,4 +1,6 @@
 // android 2.x doesn't support Data-URI spec
+import {Options, Render} from "./IDrawer";
+
 export function _getAndroid() {
     var android = false;
     var sAgent = navigator.userAgent;
@@ -23,111 +25,124 @@ export function _getAndroid() {
  * @param {HTMLElement} el
  * @param {Object} htOption QRCode Options
  */
-export var DrawingCanvas = function (el, htOption) {
-    this._bIsPainted = false;
-    this._android = _getAndroid();
+export class DrawingCanvas implements Render {
+    _bIsPainted
+    _android
+    _htOption
+    _elCanvas
+    _el
+    _oContext
+    _elImage
+    _bSupportDataURI
 
-    this._htOption = htOption;
-    this._elCanvas = document.createElement("canvas");
-    this._elCanvas.width = htOption.width;
-    this._elCanvas.height = htOption.height;
-    el.appendChild(this._elCanvas);
-    this._el = el;
-    this._oContext = this._elCanvas.getContext("2d");
-    this._bIsPainted = false;
-    this._elImage = document.createElement("img");
-    this._elImage.alt = "Scan me!";
-    this._elImage.style.display = "none";
-    this._el.appendChild(this._elImage);
-    this._bSupportDataURI = null;
-};
+    constructor(el: HTMLElement, htOption: Options) {
+        this._bIsPainted = false;
+        this._android = _getAndroid();
 
-/**
- * Draw the QRCode
- *
- * @param {QRCode} oQRCode
- */
-DrawingCanvas.prototype.draw = function (oQRCode) {
-    var _elImage = this._elImage;
-    var _oContext = this._oContext;
-    var _htOption = this._htOption;
+        this._htOption = htOption;
+        this._elCanvas = document.createElement("canvas");
+        this._elCanvas.width = htOption.width;
+        this._elCanvas.height = htOption.height;
+        el.appendChild(this._elCanvas);
+        this._el = el;
+        this._oContext = this._elCanvas.getContext("2d");
+        this._bIsPainted = false;
+        this._elImage = document.createElement("img");
+        this._elImage.alt = "Scan me!";
+        this._elImage.style.display = "none";
+        this._el.appendChild(this._elImage);
+        this._bSupportDataURI = null;
+    }
 
-    var nCount = oQRCode.getModuleCount();
-    var nWidth = _htOption.width / nCount;
-    var nHeight = _htOption.height / nCount;
-    var nRoundedWidth = Math.round(nWidth);
-    var nRoundedHeight = Math.round(nHeight);
+    /**
+     * Draw the QRCode
+     *
+     * @param {QRCode} oQRCode
+     */
+    draw = function (oQRCode) {
+        var _elImage = this._elImage;
+        var _oContext = this._oContext;
+        var _htOption = this._htOption;
 
-    _elImage.style.display = "none";
-    this.clear();
+        var nCount = oQRCode.getModuleCount();
+        var nWidth = _htOption.width / nCount;
+        var nHeight = _htOption.height / nCount;
+        var nRoundedWidth = Math.round(nWidth);
+        var nRoundedHeight = Math.round(nHeight);
 
-    for (var row = 0; row < nCount; row++) {
-        for (var col = 0; col < nCount; col++) {
-            var bIsDark = oQRCode.isDark(row, col);
-            var nLeft = col * nWidth;
-            var nTop = row * nHeight;
-            _oContext.strokeStyle = bIsDark ? _htOption.colorDark : _htOption.colorLight;
-            _oContext.lineWidth = 1;
-            _oContext.fillStyle = bIsDark ? _htOption.colorDark : _htOption.colorLight;
-            _oContext.fillRect(nLeft, nTop, nWidth, nHeight);
+        _elImage.style.display = "none";
+        this.clear();
 
-            // 안티 앨리어싱 방지 처리
-            _oContext.strokeRect(
-                Math.floor(nLeft) + 0.5,
-                Math.floor(nTop) + 0.5,
-                nRoundedWidth,
-                nRoundedHeight
-            );
+        for (var row = 0; row < nCount; row++) {
+            for (var col = 0; col < nCount; col++) {
+                var bIsDark = oQRCode.isDark(row, col);
+                var nLeft = col * nWidth;
+                var nTop = row * nHeight;
+                _oContext.strokeStyle = bIsDark ? _htOption.colorDark : _htOption.colorLight;
+                _oContext.lineWidth = 1;
+                _oContext.fillStyle = bIsDark ? _htOption.colorDark : _htOption.colorLight;
+                _oContext.fillRect(nLeft, nTop, nWidth, nHeight);
 
-            _oContext.strokeRect(
-                Math.ceil(nLeft) - 0.5,
-                Math.ceil(nTop) - 0.5,
-                nRoundedWidth,
-                nRoundedHeight
-            );
+                // 안티 앨리어싱 방지 처리
+                _oContext.strokeRect(
+                    Math.floor(nLeft) + 0.5,
+                    Math.floor(nTop) + 0.5,
+                    nRoundedWidth,
+                    nRoundedHeight
+                );
+
+                _oContext.strokeRect(
+                    Math.ceil(nLeft) - 0.5,
+                    Math.ceil(nTop) - 0.5,
+                    nRoundedWidth,
+                    nRoundedHeight
+                );
+            }
         }
-    }
 
-    this._bIsPainted = true;
-};
+        this._bIsPainted = true;
+    };
 
-/**
- * Make the image from Canvas if the browser supports Data URI.
- */
-DrawingCanvas.prototype.makeImage = function () {
-    if (this._bIsPainted) {
-        _safeSetDataURI.call(this, _onMakeImage);
-    }
-};
+    /**
+     * Make the image from Canvas if the browser supports Data URI.
+     */
+    makeImage = function () {
+        if (this._bIsPainted) {
+            _safeSetDataURI.call(this, _onMakeImage);
+        }
+    };
 
-/**
- * Return whether the QRCode is painted or not
- *
- * @return {Boolean}
- */
-DrawingCanvas.prototype.isPainted = function () {
-    return this._bIsPainted;
-};
+    /**
+     * Return whether the QRCode is painted or not
+     *
+     * @return {Boolean}
+     */
+    isPainted = function () {
+        return this._bIsPainted;
+    };
 
-/**
- * Clear the QRCode
- */
-DrawingCanvas.prototype.clear = function () {
-    this._oContext.clearRect(0, 0, this._elCanvas.width, this._elCanvas.height);
-    this._bIsPainted = false;
-};
+    /**
+     * Clear the QRCode
+     */
+    clear = function () {
+        this._oContext.clearRect(0, 0, this._elCanvas.width, this._elCanvas.height);
+        this._bIsPainted = false;
+    };
 
-/**
- * @private
- * @param {Number} nNumber
- */
-DrawingCanvas.prototype.round = function (nNumber) {
-    if (!nNumber) {
-        return nNumber;
-    }
+    /**
+     * @private
+     * @param {Number} nNumber
+     */
+    round = function (nNumber) {
+        if (!nNumber) {
+            return nNumber;
+        }
 
-    return Math.floor(nNumber * 1000) / 1000;
-};
+        return Math.floor(nNumber * 1000) / 1000;
+    };
+
+
+}
 
 function _onMakeImage() {
     this._elImage.src = this._elCanvas.toDataURL("image/png");
