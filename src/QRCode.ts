@@ -15,11 +15,11 @@ import {DrawingHack} from "./DrawerHack.js";
 import {_getAndroid, DrawingCanvas} from "./DrawingCanvas.js";
 import {DrawingSVG} from "./DrawingSVG.js";
 
-function _isSupportCanvas() {
+function _isSupportCanvas(): boolean {
     return typeof CanvasRenderingContext2D != "undefined";
 }
 
-const useSVG = document.documentElement.tagName.toLowerCase() === "svg";
+const useSVG: boolean = document.documentElement.tagName.toLowerCase() === "svg";
 
 // Drawing in DOM by using Table tag
 let Drawing = useSVG ? DrawingSVG : !_isSupportCanvas() ? DrawingHack : DrawingCanvas;
@@ -32,9 +32,9 @@ let Drawing = useSVG ? DrawingSVG : !_isSupportCanvas() ? DrawingHack : DrawingC
  * @param {Number} nCorrectLevel
  * @return {Number} type
  */
-function _getTypeNumber(sText, nCorrectLevel) {
-    var nType = 1;
-    var length = _getUTF8Length(sText);
+function _getTypeNumber(sText: string, nCorrectLevel: number): number {
+    let nType = 1;
+    const length = _getUTF8Length(sText);
 
     for (var i = 0, len = QRCodeLimitLength.length; i <= len; i++) {
         var nLimit = 0;
@@ -91,10 +91,9 @@ export class QRCode {
         text: "QRCode",
     };
 
-    _android = undefined
-    _oQRCode = undefined
-    _oDrawing = undefined
-
+    private _android = undefined
+    private _oDrawing = undefined
+    private _oQRCode: QRCodeModel
     private readonly _el: HTMLElement
 
     /**
@@ -155,7 +154,7 @@ export class QRCode {
      *
      * @param {String} sText link data
      */
-    makeCode(sText) {
+    makeCode(sText: string): void {
         this._oQRCode = new QRCodeModel(_getTypeNumber(sText, this._htOption.correctLevel), this._htOption.correctLevel);
         this._oQRCode.addData(sText);
         this._oQRCode.make();
@@ -171,7 +170,7 @@ export class QRCode {
      *
      * @private
      */
-    makeImage() {
+    makeImage(): void {
         if (typeof this._oDrawing.makeImage == "function" && (!this._android || this._android >= 3)) {
             this._oDrawing.makeImage();
         }
@@ -180,7 +179,7 @@ export class QRCode {
     /**
      * Clear the QRCode
      */
-    clear() {
+    clear(): void {
         this._oDrawing.clear();
     };
 }

@@ -26,16 +26,16 @@ export class QRCodeModel {
     }
 
     static createData(typeNumber, errorCorrectLevel, dataList) {
-        var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
-        var buffer = new QRBitBuffer();
-        for (var i = 0; i < dataList.length; i++) {
-            var data = dataList[i];
+        const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+        const buffer = new QRBitBuffer();
+        for (let i = 0; i < dataList.length; i++) {
+            const data = dataList[i];
             buffer.put(data.mode, 4);
             buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber));
             data.write(buffer);
         }
-        var totalDataCount = 0;
-        for (var i = 0; i < rsBlocks.length; i++) {
+        let totalDataCount = 0;
+        for (let i = 0; i < rsBlocks.length; i++) {
             totalDataCount += rsBlocks[i].dataCount;
         }
         if (buffer.getLengthInBits() > totalDataCount * 8) {
@@ -65,14 +65,14 @@ export class QRCodeModel {
     };
 
     static createBytes(buffer, rsBlocks) {
-        var offset = 0;
-        var maxDcCount = 0;
-        var maxEcCount = 0;
-        var dcdata = new Array(rsBlocks.length);
-        var ecdata = new Array(rsBlocks.length);
+        let offset = 0;
+        let maxDcCount = 0;
+        let maxEcCount = 0;
+        const dcdata = new Array(rsBlocks.length);
+        const ecdata = new Array(rsBlocks.length);
         for (var r = 0; r < rsBlocks.length; r++) {
-            var dcCount = rsBlocks[r].dataCount;
-            var ecCount = rsBlocks[r].totalCount - dcCount;
+            const dcCount = rsBlocks[r].dataCount;
+            const ecCount = rsBlocks[r].totalCount - dcCount;
             maxDcCount = Math.max(maxDcCount, dcCount);
             maxEcCount = Math.max(maxEcCount, ecCount);
             dcdata[r] = new Array(dcCount);
@@ -89,12 +89,12 @@ export class QRCodeModel {
                 ecdata[r][i] = (modIndex >= 0) ? modPoly.get(modIndex) : 0;
             }
         }
-        var totalCodeCount = 0;
+        let totalCodeCount = 0;
         for (var i = 0; i < rsBlocks.length; i++) {
             totalCodeCount += rsBlocks[i].totalCount;
         }
-        var data = new Array(totalCodeCount);
-        var index = 0;
+        const data = new Array(totalCodeCount);
+        let index = 0;
         for (var i = 0; i < maxDcCount; i++) {
             for (var r = 0; r < rsBlocks.length; r++) {
                 if (i < dcdata[r].length) {
