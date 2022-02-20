@@ -69,6 +69,24 @@ function _getUTF8Length(sText) {
     return replacedText.length + (replacedText.length != sText ? 3 : 0);
 }
 
+/**
+ * Quick Response (QR) codes are two-dimensional (2-D) barcodes that can
+ * contain information such as URL links (e.g. a link to YouTube video,
+ * website link) and text (e.g. contact details, product details). These
+ * square pattern codes consist of black modules on a white background.
+ * QR code generator is software that stores data (e.g. URL link, text,
+ * Google maps location) into a QR code. This encoded data can be decoded
+ * by scanning the QR code symbol with a mobile device that is equipped
+ * with a camera and a QR code reader software. QR codes have a number
+ * of purposes; they are mostly used in manufacturing (e.g. product
+ * traceability, process control, inventory and equipment management),
+ * warehousing and logistics (e.g. item tracking), retailing (e.g. sales
+ * management), healthcare (e.g. medical records management, patient
+ * identification, equipment and device tracking), transportation (e.g.
+ * ticketing and boarding passes), office automation (e.g. document
+ * management), marketing and advertising (e.g. mobile marketing,
+ * electronic tickets, coupons, payments).
+ */
 export class QRCode {
 
     /**
