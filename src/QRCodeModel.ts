@@ -69,21 +69,21 @@ export class QRCodeModel {
         let offset = 0;
         let maxDcCount = 0;
         let maxEcCount = 0;
-        const dcdata = new Array(rsBlocks.length);
+        const dcdata = new Array<Array<number>>(rsBlocks.length);
         const ecdata = new Array(rsBlocks.length);
-        for (var r = 0; r < rsBlocks.length; r++) {
+        for (let r = 0; r < rsBlocks.length; r++) {
             const dcCount = rsBlocks[r].dataCount;
             const ecCount = rsBlocks[r].totalCount - dcCount;
             maxDcCount = Math.max(maxDcCount, dcCount);
             maxEcCount = Math.max(maxEcCount, ecCount);
-            dcdata[r] = new Array(dcCount);
-            for (var i = 0; i < dcdata[r].length; i++) {
+            dcdata[r] = new Array<number>(dcCount);
+            for (let i = 0; i < dcdata[r].length; i++) {
                 dcdata[r][i] = 0xff & buffer.buffer[i + offset];
             }
             offset += dcCount;
-            var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
-            var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
-            var modPoly = rawPoly.mod(rsPoly);
+            const rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+            const rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
+            const modPoly = rawPoly.mod(rsPoly);
             ecdata[r] = new Array(rsPoly.getLength() - 1);
             for (var i = 0; i < ecdata[r].length; i++) {
                 var modIndex = i + modPoly.getLength() - ecdata[r].length;
@@ -91,20 +91,20 @@ export class QRCodeModel {
             }
         }
         let totalCodeCount = 0;
-        for (var i = 0; i < rsBlocks.length; i++) {
+        for (let i = 0; i < rsBlocks.length; i++) {
             totalCodeCount += rsBlocks[i].totalCount;
         }
         const data = new Array(totalCodeCount);
         let index = 0;
-        for (var i = 0; i < maxDcCount; i++) {
-            for (var r = 0; r < rsBlocks.length; r++) {
+        for (let i = 0; i < maxDcCount; i++) {
+            for (let r = 0; r < rsBlocks.length; r++) {
                 if (i < dcdata[r].length) {
                     data[index++] = dcdata[r][i];
                 }
             }
         }
-        for (var i = 0; i < maxEcCount; i++) {
-            for (var r = 0; r < rsBlocks.length; r++) {
+        for (let i = 0; i < maxEcCount; i++) {
+            for (let r = 0; r < rsBlocks.length; r++) {
                 if (i < ecdata[r].length) {
                     data[index++] = ecdata[r][i];
                 }

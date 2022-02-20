@@ -1,38 +1,46 @@
 import {QRMath} from "./QRMath.js";
 
-export function QRPolynomial(num, shift) {
-    if (num.length == undefined) {
-        throw new Error(num.length + "/" + shift);
-    }
-    var offset = 0;
-    while (offset < num.length && num[offset] == 0) {
-        offset++;
-    }
-    this.num = new Array(num.length - offset + shift);
-    for (var i = 0; i < num.length - offset; i++) {
-        this.num[i] = num[i + offset];
-    }
-}
+export class QRPolynomial {
+    num;
 
-QRPolynomial.prototype = {
-    get: function (index) {
+    constructor(num, shift) {
+        if (num.length == undefined) {
+            throw new Error(num.length + "/" + shift);
+        }
+        let offset = 0;
+        while (offset < num.length && num[offset] == 0) {
+            offset++;
+        }
+        this.num = new Array(num.length - offset + shift);
+        for (let i = 0; i < num.length - offset; i++) {
+            this.num[i] = num[i + offset];
+        }
+    }
+
+    get(index) {
         return this.num[index];
-    }, getLength: function () {
+    }
+
+    getLength() {
         return this.num.length;
-    }, multiply: function (e) {
-        var num = new Array(this.getLength() + e.getLength() - 1);
-        for (var i = 0; i < this.getLength(); i++) {
-            for (var j = 0; j < e.getLength(); j++) {
+    }
+
+    multiply(e) {
+        const num = new Array(this.getLength() + e.getLength() - 1);
+        for (let i = 0; i < this.getLength(); i++) {
+            for (let j = 0; j < e.getLength(); j++) {
                 num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i)) + QRMath.glog(e.get(j)));
             }
         }
         return new QRPolynomial(num, 0);
-    }, mod: function (e) {
+    }
+
+    mod(e) {
         if (this.getLength() - e.getLength() < 0) {
             return this;
         }
-        var ratio = QRMath.glog(this.get(0)) - QRMath.glog(e.get(0));
-        var num = new Array(this.getLength());
+        const ratio = QRMath.glog(this.get(0)) - QRMath.glog(e.get(0));
+        const num = new Array(this.getLength());
         for (var i = 0; i < this.getLength(); i++) {
             num[i] = this.get(i);
         }
@@ -41,4 +49,4 @@ QRPolynomial.prototype = {
         }
         return new QRPolynomial(num, 0).mod(e);
     }
-};
+}
