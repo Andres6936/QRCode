@@ -6,17 +6,18 @@ import {QRPolynomial} from "./QRPolynomial.js";
 
 export class QRCodeModel {
 
-    typeNumber = undefined;
-    errorCorrectLevel = undefined;
+    dataList: Array<QR8bitByte> = [];
+    private readonly typeNumber: number = undefined;
+    private readonly errorCorrectLevel = undefined;
+
     modules = null;
-    moduleCount = 0;
     dataCache = null;
-    dataList = [];
+    private moduleCount: number = 0;
 
     private static readonly PAD0 = 0xEC;
     private static readonly PAD1 = 0x11;
 
-    constructor(typeNumber, errorCorrectLevel) {
+    constructor(typeNumber: number, errorCorrectLevel) {
         this.typeNumber = typeNumber;
         this.errorCorrectLevel = errorCorrectLevel;
         this.modules = null;
@@ -25,7 +26,7 @@ export class QRCodeModel {
         this.dataList = [];
     }
 
-    static createData(typeNumber, errorCorrectLevel, dataList) {
+    private static createData(typeNumber: number, errorCorrectLevel, dataList: ReadonlyArray<QR8bitByte>) {
         const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
         const buffer = new QRBitBuffer();
         for (let i = 0; i < dataList.length; i++) {
@@ -112,8 +113,8 @@ export class QRCodeModel {
         return data;
     };
 
-    addData(data) {
-        var newData = new QR8bitByte(data);
+    public addData(data: string): void {
+        const newData = new QR8bitByte(data);
         this.dataList.push(newData);
         this.dataCache = null;
     }
@@ -129,14 +130,14 @@ export class QRCodeModel {
         return this.moduleCount;
     }
 
-    make() {
+    public make(): void {
         this.makeImpl(false, this.getBestMaskPattern());
     }
 
-    makeImpl(test, maskPattern) {
+    private makeImpl(test: boolean, maskPattern: number): void {
         this.moduleCount = this.typeNumber * 4 + 17;
         this.modules = new Array(this.moduleCount);
-        for (var row = 0; row < this.moduleCount; row++) {
+        for (let row = 0; row < this.moduleCount; row++) {
             this.modules[row] = new Array(this.moduleCount);
             for (var col = 0; col < this.moduleCount; col++) {
                 this.modules[row][col] = null;
@@ -171,12 +172,13 @@ export class QRCodeModel {
         }
     }
 
-    getBestMaskPattern() {
-        var minLostPoint = 0;
-        var pattern = 0;
-        for (var i = 0; i < 8; i++) {
+    private getBestMaskPattern(): number {
+        let minLostPoint: number = 0;
+        let pattern: number = 0;
+
+        for (let i = 0; i < 8; i++) {
             this.makeImpl(true, i);
-            var lostPoint = QRUtil.getLostPoint(this);
+            const lostPoint = QRUtil.getLostPoint(this);
             if (i == 0 || minLostPoint > lostPoint) {
                 minLostPoint = lostPoint;
                 pattern = i;
