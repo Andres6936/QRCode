@@ -15,7 +15,7 @@ export class DrawingHack implements Render {
      *
      * @param {QRCode} oQRCode
      */
-    draw = function (oQRCode) {
+    draw(oQRCode) {
         var _htOption = this._htOption;
         var _el = this._el;
         var nCount = oQRCode.getModuleCount();
@@ -49,7 +49,7 @@ export class DrawingHack implements Render {
     /**
      * Clear the QRCode
      */
-    clear = function () {
+    clear() {
         this._el.innerHTML = '';
     };
 
