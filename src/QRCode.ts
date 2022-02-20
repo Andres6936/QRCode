@@ -86,6 +86,22 @@ function _getUTF8Length(sText) {
  * ticketing and boarding passes), office automation (e.g. document
  * management), marketing and advertising (e.g. mobile marketing,
  * electronic tickets, coupons, payments).
+ *
+ * Quick Response (QR) codes are two-dimensional (2-
+ * D) barcodes that can contain all types of data, such as
+ * numeric and alphabetic characters, Kanji, Kana, Hiragana,
+ * symbols, binary and control codes. Up to 7,089 characters
+ * can be encoded in one code. These square pattern codes
+ * consist of black modules on a white background.
+ *
+ * The main features of QR codes are: high capacity data
+ * storage, small printout size, Kanji and Kana character set
+ * capability, dirt and damage resistant (QR codes have an
+ * error correction capability), readable from any direction in
+ * 360 degrees and with a structured appending feature. One
+ * QR code can be divided into up to 16 smaller QR
+ * symbols. Information stored in multiple QR code symbols
+ * can be reconstructed as a single data symbol.
  */
 export class QRCode {
 
