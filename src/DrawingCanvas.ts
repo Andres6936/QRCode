@@ -1,5 +1,6 @@
 // android 2.x doesn't support Data-URI spec
 import {Options, Render} from "./IDrawer";
+import {QRCodeModel} from "./QRCodeModel";
 
 export function _getAndroid() {
     var android = false;
@@ -59,25 +60,25 @@ export class DrawingCanvas implements Render {
      *
      * @param {QRCode} oQRCode
      */
-    draw = function (oQRCode) {
-        var _elImage = this._elImage;
-        var _oContext = this._oContext;
-        var _htOption = this._htOption;
+    public draw(oQRCode: QRCodeModel) {
+        const _elImage = this._elImage;
+        const _oContext = this._oContext;
+        const _htOption = this._htOption;
 
-        var nCount = oQRCode.getModuleCount();
-        var nWidth = _htOption.width / nCount;
-        var nHeight = _htOption.height / nCount;
-        var nRoundedWidth = Math.round(nWidth);
-        var nRoundedHeight = Math.round(nHeight);
+        const nCount = oQRCode.getModuleCount();
+        const nWidth = _htOption.width / nCount;
+        const nHeight = _htOption.height / nCount;
+        const nRoundedWidth = Math.round(nWidth);
+        const nRoundedHeight = Math.round(nHeight);
 
         _elImage.style.display = "none";
         this.clear();
 
-        for (var row = 0; row < nCount; row++) {
-            for (var col = 0; col < nCount; col++) {
-                var bIsDark = oQRCode.isDark(row, col);
-                var nLeft = col * nWidth;
-                var nTop = row * nHeight;
+        for (let row = 0; row < nCount; row++) {
+            for (let col = 0; col < nCount; col++) {
+                const bIsDark = oQRCode.isDark(row, col);
+                const nLeft = col * nWidth;
+                const nTop = row * nHeight;
                 _oContext.strokeStyle = bIsDark ? _htOption.colorDark : _htOption.colorLight;
                 _oContext.lineWidth = 1;
                 _oContext.fillStyle = bIsDark ? _htOption.colorDark : _htOption.colorLight;
