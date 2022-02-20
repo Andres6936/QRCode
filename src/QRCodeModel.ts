@@ -65,7 +65,7 @@ export class QRCodeModel {
         return QRCodeModel.createBytes(buffer, rsBlocks);
     };
 
-    static createBytes(buffer, rsBlocks) {
+    private static createBytes(buffer: QRBitBuffer, rsBlocks) {
         let offset = 0;
         let maxDcCount = 0;
         let maxEcCount = 0;
