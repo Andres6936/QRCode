@@ -27,31 +27,31 @@ export function _getAndroid() {
  * @param {Object} htOption QRCode Options
  */
 export class DrawingCanvas implements Render {
+    private readonly element: HTMLElement;
+    private readonly canvas: HTMLCanvasElement
+    private readonly image: HTMLImageElement;
+    private readonly options: Options;
+    private readonly context2D: CanvasRenderingContext2D;
     _bIsPainted
     _android
-    _htOption
-    _elCanvas
-    _el
-    _oContext
-    _elImage
     _bSupportDataURI
 
-    constructor(element: HTMLElement, htOption: Options) {
+    constructor(element: HTMLElement, options: Readonly<Options>) {
         this._bIsPainted = false;
         this._android = _getAndroid();
 
-        this._htOption = htOption;
-        this._elCanvas = document.createElement("canvas");
-        this._elCanvas.width = htOption.width;
-        this._elCanvas.height = htOption.height;
-        element.appendChild(this._elCanvas);
-        this._el = element;
-        this._oContext = this._elCanvas.getContext("2d");
+        this.options = options;
+        this.canvas = document.createElement("canvas");
+        this.canvas.width = options.width;
+        this.canvas.height = options.height;
+        element.appendChild(this.canvas);
+        this.element = element;
+        this.context2D = this.canvas.getContext("2d");
         this._bIsPainted = false;
-        this._elImage = document.createElement("img");
-        this._elImage.alt = "Scan me!";
-        this._elImage.style.display = "none";
-        this._el.appendChild(this._elImage);
+        this.image = document.createElement("img");
+        this.image.alt = "Scan me!";
+        this.image.style.display = "none";
+        this.element.appendChild(this.image);
         this._bSupportDataURI = null;
     }
 
@@ -61,9 +61,9 @@ export class DrawingCanvas implements Render {
      * @param {QRCode} oQRCode
      */
     public draw(oQRCode: QRCodeModel) {
-        const _elImage = this._elImage;
-        const _oContext = this._oContext;
-        const _htOption = this._htOption;
+        const _elImage = this.image;
+        const _oContext = this.context2D;
+        const _htOption = this.options;
 
         const nCount = oQRCode.getModuleCount();
         const nWidth = _htOption.width / nCount;
@@ -126,7 +126,7 @@ export class DrawingCanvas implements Render {
      * Clear the QRCode
      */
     clear() {
-        this._oContext.clearRect(0, 0, this._elCanvas.width, this._elCanvas.height);
+        this.context2D.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this._bIsPainted = false;
     };
 
