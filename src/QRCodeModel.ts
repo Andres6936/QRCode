@@ -27,7 +27,7 @@ export class QRCodeModel {
     }
 
     private static createData(typeNumber: number, errorCorrectLevel, dataList: ReadonlyArray<QR8bitByte>) {
-        const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+        const rsBlocks: Array<QRRSBlock> = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
         const buffer = new QRBitBuffer();
         for (let i = 0; i < dataList.length; i++) {
             const data = dataList[i];
@@ -65,7 +65,7 @@ export class QRCodeModel {
         return QRCodeModel.createBytes(buffer, rsBlocks);
     };
 
-    private static createBytes(buffer: QRBitBuffer, rsBlocks) {
+    private static createBytes(buffer: Readonly<QRBitBuffer>, rsBlocks: ReadonlyArray<QRRSBlock>) {
         let offset = 0;
         let maxDcCount = 0;
         let maxEcCount = 0;
