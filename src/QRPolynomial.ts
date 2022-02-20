@@ -1,7 +1,7 @@
 import {QRMath} from "./QRMath.js";
 
 export class QRPolynomial {
-    num;
+    public readonly num;
 
     constructor(num, shift) {
         if (num.length == undefined) {
@@ -17,15 +17,15 @@ export class QRPolynomial {
         }
     }
 
-    get(index) {
+    public get(index) {
         return this.num[index];
     }
 
-    getLength() {
+    public getLength(): number {
         return this.num.length;
     }
 
-    multiply(e) {
+    public multiply(e): QRPolynomial {
         const num = new Array(this.getLength() + e.getLength() - 1);
         for (let i = 0; i < this.getLength(); i++) {
             for (let j = 0; j < e.getLength(); j++) {
@@ -35,16 +35,16 @@ export class QRPolynomial {
         return new QRPolynomial(num, 0);
     }
 
-    mod(e) {
+    public mod(e): QRPolynomial {
         if (this.getLength() - e.getLength() < 0) {
             return this;
         }
         const ratio = QRMath.glog(this.get(0)) - QRMath.glog(e.get(0));
         const num = new Array(this.getLength());
-        for (var i = 0; i < this.getLength(); i++) {
+        for (let i = 0; i < this.getLength(); i++) {
             num[i] = this.get(i);
         }
-        for (var i = 0; i < e.getLength(); i++) {
+        for (let i = 0; i < e.getLength(); i++) {
             num[i] ^= QRMath.gexp(QRMath.glog(e.get(i)) + ratio);
         }
         return new QRPolynomial(num, 0).mod(e);

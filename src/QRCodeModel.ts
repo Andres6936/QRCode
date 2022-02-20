@@ -26,7 +26,7 @@ export class QRCodeModel {
         this.dataList = [];
     }
 
-    private static createData(typeNumber: number, errorCorrectLevel, dataList: ReadonlyArray<QR8bitByte>) {
+    private static createData(typeNumber: number, errorCorrectLevel, dataList: ReadonlyArray<QR8bitByte>): Array<number> {
         const rsBlocks: Array<QRRSBlock> = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
         const buffer = new QRBitBuffer();
         for (let i = 0; i < dataList.length; i++) {
@@ -65,7 +65,7 @@ export class QRCodeModel {
         return QRCodeModel.createBytes(buffer, rsBlocks);
     };
 
-    private static createBytes(buffer: Readonly<QRBitBuffer>, rsBlocks: ReadonlyArray<QRRSBlock>) {
+    private static createBytes(buffer: Readonly<QRBitBuffer>, rsBlocks: ReadonlyArray<QRRSBlock>): Array<number> {
         let offset = 0;
         let maxDcCount = 0;
         let maxEcCount = 0;
@@ -81,10 +81,10 @@ export class QRCodeModel {
                 dcdata[r][i] = 0xff & buffer.buffer[i + offset];
             }
             offset += dcCount;
-            const rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+            const rsPoly: QRPolynomial = QRUtil.getErrorCorrectPolynomial(ecCount);
             const rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
-            const modPoly = rawPoly.mod(rsPoly);
-            ecdata[r] = new Array(rsPoly.getLength() - 1);
+            const modPoly: QRPolynomial = rawPoly.mod(rsPoly);
+            ecdata[r] = new Array<number>(rsPoly.getLength() - 1);
             for (var i = 0; i < ecdata[r].length; i++) {
                 var modIndex = i + modPoly.getLength() - ecdata[r].length;
                 ecdata[r][i] = (modIndex >= 0) ? modPoly.get(modIndex) : 0;
@@ -94,7 +94,7 @@ export class QRCodeModel {
         for (let i = 0; i < rsBlocks.length; i++) {
             totalCodeCount += rsBlocks[i].totalCount;
         }
-        const data = new Array(totalCodeCount);
+        const data = new Array<number>(totalCodeCount);
         let index = 0;
         for (let i = 0; i < maxDcCount; i++) {
             for (let r = 0; r < rsBlocks.length; r++) {

@@ -55,9 +55,9 @@ export var QRUtil = {
                 throw new Error("bad maskPattern:" + maskPattern);
         }
     },
-    getErrorCorrectPolynomial: function (errorCorrectLength) {
-        var a = new QRPolynomial([1], 0);
-        for (var i = 0; i < errorCorrectLength; i++) {
+    getErrorCorrectPolynomial: function (errorCorrectLength): QRPolynomial {
+        let a = new QRPolynomial([1], 0);
+        for (let i = 0; i < errorCorrectLength; i++) {
             a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0));
         }
         return a;
