@@ -32,9 +32,9 @@ export class DrawingCanvas implements Render {
     private readonly image: HTMLImageElement;
     private readonly options: Options;
     private readonly context2D: CanvasRenderingContext2D;
+    private supportDataURI: boolean;
     _bIsPainted
     _android
-    _bSupportDataURI
 
     constructor(element: HTMLElement, options: Readonly<Options>) {
         this._bIsPainted = false;
@@ -52,7 +52,7 @@ export class DrawingCanvas implements Render {
         this.image.alt = "Scan me!";
         this.image.style.display = "none";
         this.element.appendChild(this.image);
-        this._bSupportDataURI = null;
+        this.supportDataURI = undefined;
     }
 
     /**
@@ -61,17 +61,13 @@ export class DrawingCanvas implements Render {
      * @param {QRCode} oQRCode
      */
     public draw(oQRCode: QRCodeModel) {
-        const _elImage = this.image;
-        const _oContext = this.context2D;
-        const _htOption = this.options;
-
         const nCount = oQRCode.getModuleCount();
-        const nWidth = _htOption.width / nCount;
-        const nHeight = _htOption.height / nCount;
+        const nWidth = this.options.width / nCount;
+        const nHeight = this.options.height / nCount;
         const nRoundedWidth = Math.round(nWidth);
         const nRoundedHeight = Math.round(nHeight);
 
-        _elImage.style.display = "none";
+        this.image.style.display = "none";
         this.clear();
 
         for (let row = 0; row < nCount; row++) {
@@ -79,20 +75,19 @@ export class DrawingCanvas implements Render {
                 const bIsDark = oQRCode.isDark(row, col);
                 const nLeft = col * nWidth;
                 const nTop = row * nHeight;
-                _oContext.strokeStyle = bIsDark ? _htOption.colorDark : _htOption.colorLight;
-                _oContext.lineWidth = 1;
-                _oContext.fillStyle = bIsDark ? _htOption.colorDark : _htOption.colorLight;
-                _oContext.fillRect(nLeft, nTop, nWidth, nHeight);
+                this.context2D.strokeStyle = bIsDark ? this.options.colorDark : this.options.colorLight;
+                this.context2D.lineWidth = 1;
+                this.context2D.fillStyle = bIsDark ? this.options.colorDark : this.options.colorLight;
+                this.context2D.fillRect(nLeft, nTop, nWidth, nHeight);
 
-                // 안티 앨리어싱 방지 처리
-                _oContext.strokeRect(
+                this.context2D.strokeRect(
                     Math.floor(nLeft) + 0.5,
                     Math.floor(nTop) + 0.5,
                     nRoundedWidth,
                     nRoundedHeight
                 );
 
-                _oContext.strokeRect(
+                this.context2D.strokeRect(
                     Math.ceil(nLeft) - 0.5,
                     Math.ceil(nTop) - 0.5,
                     nRoundedWidth,
@@ -109,7 +104,15 @@ export class DrawingCanvas implements Render {
      */
     makeImage() {
         if (this._bIsPainted) {
-            _safeSetDataURI.call(this, _onMakeImage);
+            this.image.onerror = () => {
+                this.supportDataURI = false
+            }
+            this.image.onload = () => {
+                this.supportDataURI = true
+            }
+            this.image.style.display = "block";
+            this.image.src = this.canvas.toDataURL("image/png");
+            this.image.style.display = "none";
         }
     };
 
@@ -143,52 +146,4 @@ export class DrawingCanvas implements Render {
     };
 
 
-}
-
-function _onMakeImage() {
-    this._elImage.src = this._elCanvas.toDataURL("image/png");
-    this._elImage.style.display = "block";
-    this._elCanvas.style.display = "none";
-}
-
-/**
- * Check whether the user's browser supports Data URI or not
- *
- * @private
- * @param {Function} fSuccess Occurs if it supports Data URI
- * @param {Function} fFail Occurs if it doesn't support Data URI
- */
-function _safeSetDataURI(fSuccess, fFail) {
-    var self = this;
-    self._fFail = fFail;
-    self._fSuccess = fSuccess;
-
-    // Check it just once
-    if (self._bSupportDataURI === null) {
-        var el = document.createElement("img");
-        var fOnError = () => {
-            self._bSupportDataURI = false;
-
-            if (self._fFail) {
-                self._fFail.call(self);
-            }
-        };
-        var fOnSuccess = () => {
-            self._bSupportDataURI = true;
-
-            if (self._fSuccess) {
-                self._fSuccess.call(self);
-            }
-        };
-
-        el.onabort = fOnError;
-        el.onerror = fOnError;
-        el.onload = fOnSuccess;
-        el.src = "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="; // the Image contains 1px data.
-        return;
-    } else if (self._bSupportDataURI === true && self._fSuccess) {
-        self._fSuccess.call(self);
-    } else if (self._bSupportDataURI === false && self._fFail) {
-        self._fFail.call(self);
-    }
 }
