@@ -36,7 +36,7 @@ export class DrawingCanvas implements Render {
     _elImage
     _bSupportDataURI
 
-    constructor(el: HTMLElement, htOption: Options) {
+    constructor(element: HTMLElement, htOption: Options) {
         this._bIsPainted = false;
         this._android = _getAndroid();
 
@@ -44,8 +44,8 @@ export class DrawingCanvas implements Render {
         this._elCanvas = document.createElement("canvas");
         this._elCanvas.width = htOption.width;
         this._elCanvas.height = htOption.height;
-        el.appendChild(this._elCanvas);
-        this._el = el;
+        element.appendChild(this._elCanvas);
+        this._el = element;
         this._oContext = this._elCanvas.getContext("2d");
         this._bIsPainted = false;
         this._elImage = document.createElement("img");
@@ -107,7 +107,7 @@ export class DrawingCanvas implements Render {
     /**
      * Make the image from Canvas if the browser supports Data URI.
      */
-    makeImage = function () {
+    makeImage() {
         if (this._bIsPainted) {
             _safeSetDataURI.call(this, _onMakeImage);
         }
@@ -118,14 +118,14 @@ export class DrawingCanvas implements Render {
      *
      * @return {Boolean}
      */
-    isPainted = function () {
+    isPainted() {
         return this._bIsPainted;
     };
 
     /**
      * Clear the QRCode
      */
-    clear = function () {
+    clear() {
         this._oContext.clearRect(0, 0, this._elCanvas.width, this._elCanvas.height);
         this._bIsPainted = false;
     };
@@ -134,7 +134,7 @@ export class DrawingCanvas implements Render {
      * @private
      * @param {Number} nNumber
      */
-    round = function (nNumber) {
+    round(nNumber) {
         if (!nNumber) {
             return nNumber;
         }
@@ -166,14 +166,14 @@ function _safeSetDataURI(fSuccess, fFail) {
     // Check it just once
     if (self._bSupportDataURI === null) {
         var el = document.createElement("img");
-        var fOnError = function () {
+        var fOnError = () => {
             self._bSupportDataURI = false;
 
             if (self._fFail) {
                 self._fFail.call(self);
             }
         };
-        var fOnSuccess = function () {
+        var fOnSuccess = () => {
             self._bSupportDataURI = true;
 
             if (self._fSuccess) {
