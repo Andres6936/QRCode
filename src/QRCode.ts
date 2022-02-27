@@ -112,7 +112,7 @@ export class QRCode {
      */
     CorrectLevel = QRErrorCorrectLevel;
 
-    _htOption = {
+    options = {
         width: 256,
         height: 256,
         typeNumber: 4,
@@ -123,10 +123,10 @@ export class QRCode {
         text: "QRCode",
     };
 
-    private _android = undefined
+    private readonly _android = undefined
     private _oDrawing: Render
     private _oQRCode: QRCodeModel
-    private readonly _el: HTMLElement
+    private readonly element: HTMLElement
 
     /**
      * @class QRCode
@@ -144,46 +144,46 @@ export class QRCode {
      * oQRCode.clear(); // Clear the QRCode.
      * oQRCode.makeCode("http://map.naver.com"); // Re-create the QRCode.
      *
-     * @param {HTMLElement|String} el target element or 'id' attribute of element.
-     * @param {Object|String} vOption
-     * @param {String} vOption.text QRCode link data
-     * @param {Number} [vOption.width=256]
-     * @param {Number} [vOption.height=256]
-     * @param {String} [vOption.colorDark="#000000"]
-     * @param {String} [vOption.colorLight="#ffffff"]
-     * @param {QRCode.CorrectLevel} [vOption.correctLevel=QRCode.CorrectLevel.H] [L|M|Q|H]
+     * @param {HTMLElement|String} element target element or 'id' attribute of element.
+     * @param {Object|String} options
+     * @param {String} options.text QRCode link data
+     * @param {Number} [options.width=256]
+     * @param {Number} [options.height=256]
+     * @param {String} [options.colorDark="#000000"]
+     * @param {String} [options.colorLight="#ffffff"]
+     * @param {QRCode.CorrectLevel} [options.correctLevel=QRCode.CorrectLevel.H] [L|M|Q|H]
      */
-    constructor(el: HTMLElement, vOption) {
-        if (typeof vOption === 'string') {
-            vOption = {
-                text: vOption
+    constructor(element: HTMLElement, options) {
+        if (typeof options === 'string') {
+            options = {
+                text: options
             };
         }
 
         // Overwrites options
-        if (vOption) {
-            for (var i in vOption) {
-                this._htOption[i] = vOption[i];
+        if (options) {
+            for (const i in options) {
+                this.options[i] = options[i];
             }
         }
 
         this._android = _getAndroid();
-        this._el = el;
+        this.element = element;
         this._oQRCode = null;
 
-        if (this._htOption.useSVG) {
-            this._oDrawing = new DrawingSVG(this._el, this._htOption);
+        if (this.options.useSVG) {
+            this._oDrawing = new DrawingSVG(this.element, this.options);
         } else {
             if (_isSupportCanvas()) {
-                this._oDrawing = new DrawingCanvas(this._el, this._htOption);
+                this._oDrawing = new DrawingCanvas(this.element, this.options);
             } else {
-                this._oDrawing = new DrawingHack(this._el, this._htOption);
+                this._oDrawing = new DrawingHack(this.element, this.options);
             }
         }
 
 
-        if (this._htOption.text) {
-            this.makeCode(this._htOption.text);
+        if (this.options.text) {
+            this.makeCode(this.options.text);
         }
     }
 
@@ -193,10 +193,10 @@ export class QRCode {
      * @param {String} sText link data
      */
     makeCode(sText: string): void {
-        this._oQRCode = new QRCodeModel(_getTypeNumber(sText, this._htOption.correctLevel), this._htOption.correctLevel);
+        this._oQRCode = new QRCodeModel(_getTypeNumber(sText, this.options.correctLevel), this.options.correctLevel);
         this._oQRCode.addData(sText);
         this._oQRCode.make();
-        this._el.title = sText;
+        this.element.title = sText;
         this._oDrawing.draw(this._oQRCode);
         this.makeImage();
     }
