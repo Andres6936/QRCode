@@ -113,9 +113,8 @@ export class QRCodeModel {
         return data;
     };
 
-    public addData(data: string): void {
-        const newData = new QR8bitByte(data);
-        this.dataList.push(newData);
+    public addData(data: Readonly<string>): void {
+        this.dataList.push(new QR8bitByte(data));
         this.dataCache = null;
     }
 

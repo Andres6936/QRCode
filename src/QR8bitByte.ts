@@ -19,7 +19,7 @@ export class QR8bitByte {
     public readonly mode = QRMode.MODE_8BIT_BYTE;
     private readonly parsedData;
 
-    constructor(dataInput: string) {
+    constructor(dataInput: Readonly<string>) {
         this.parsedData = [];
 
         // Added to support UTF-8 Characters

@@ -192,7 +192,7 @@ export class QRCode {
      *
      * @param {String} sText link data
      */
-    makeCode(sText: string): void {
+    makeCode(sText: Readonly<string>): void {
         this._oQRCode = new QRCodeModel(_getTypeNumber(sText, this.options.correctLevel), this.options.correctLevel);
         this._oQRCode.addData(sText);
         this._oQRCode.make();
