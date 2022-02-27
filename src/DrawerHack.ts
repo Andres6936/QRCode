@@ -1,10 +1,11 @@
-import {Options, Render} from "./IDrawer";
+import {Render} from "./IDrawer";
+import {QROptions} from "./QRCode";
 
 export class DrawingHack implements Render {
     _el
     _htOption
 
-    constructor(el: HTMLElement, htOption: Options) {
+    constructor(el: HTMLElement, htOption: QROptions) {
         this._el = el;
         this._htOption = htOption;
     }

@@ -70,6 +70,17 @@ function _getUTF8Length(sText) {
     return replacedText.length + (replacedText.length != sText ? 3 : 0);
 }
 
+export interface QROptions {
+    text: string,
+    width?: number,
+    height?: number,
+    typeNumber?: number,
+    colorDark?: string,
+    colorLight?: string,
+    correctLevel?: number,
+    useSVG?: boolean,
+}
+
 /**
  * Quick Response (QR) codes are two-dimensional (2-D) barcodes that can
  * contain information such as URL links (e.g. a link to YouTube video,
@@ -108,7 +119,7 @@ function _getUTF8Length(sText) {
  */
 export class QRCode {
 
-    private options = {
+    private options: QROptions = {
         width: 256,
         height: 256,
         typeNumber: 4,
@@ -118,6 +129,7 @@ export class QRCode {
         useSVG: false,
         text: "QRCode",
     };
+
     private readonly _android = undefined
     private _oDrawing: Render
     private _oQRCode: QRCodeModel
@@ -140,14 +152,9 @@ export class QRCode {
      * oQRCode.makeCode("http://map.naver.com"); // Re-create the QRCode.
      *
      * @param {HTMLElement|String} element target element or 'id' attribute of element.
-     * @param {Object|String} options
-     * @param {String} options.text QRCode link data
-     * @param {Number} [options.width=256]
-     * @param {Number} [options.height=256]
-     * @param {String} [options.colorDark="#000000"]
-     * @param {String} [options.colorLight="#ffffff"]
+     * @param {Object|String} options The options to render this QR Code
      */
-    constructor(element: HTMLElement, options) {
+    constructor(element: HTMLElement, options: Readonly<QROptions>) {
         if (typeof options === 'string') {
             options = {
                 text: options

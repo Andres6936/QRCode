@@ -1,6 +1,7 @@
 // android 2.x doesn't support Data-URI spec
-import {Options, Render} from "./IDrawer";
+import {Render} from "./IDrawer";
 import {QRCodeModel} from "./QRCodeModel";
+import {QROptions} from "./QRCode";
 
 export function _getAndroid() {
     var android = false;
@@ -30,13 +31,13 @@ export class DrawingCanvas implements Render {
     private readonly element: HTMLElement;
     private readonly canvas: HTMLCanvasElement
     private readonly image: HTMLImageElement;
-    private readonly options: Options;
+    private readonly options: QROptions;
     private readonly context2D: CanvasRenderingContext2D;
     private supportDataURI: boolean;
     _bIsPainted
     _android
 
-    constructor(element: HTMLElement, options: Readonly<Options>) {
+    constructor(element: HTMLElement, options: Readonly<QROptions>) {
         this._bIsPainted = false;
         this._android = _getAndroid();
 

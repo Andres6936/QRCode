@@ -1,8 +1,9 @@
-import {Options, Render} from "./IDrawer";
+import {Render} from "./IDrawer";
+import {QROptions} from "./QRCode";
 
 export class DrawingSVG implements Render {
     _el: HTMLElement
-    _htOption: Options
+    _htOption: QROptions
 
     constructor(el, htOption) {
         this._el = el;
