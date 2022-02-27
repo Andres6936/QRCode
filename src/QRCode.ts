@@ -110,9 +110,8 @@ export class QRCode {
     /**
      * @name QRCode.CorrectLevel
      */
-    CorrectLevel = QRErrorCorrectLevel;
-
-    options = {
+    private CorrectLevel = QRErrorCorrectLevel;
+    private options = {
         width: 256,
         height: 256,
         typeNumber: 4,
@@ -122,7 +121,6 @@ export class QRCode {
         useSVG: false,
         text: "QRCode",
     };
-
     private readonly _android = undefined
     private _oDrawing: Render
     private _oQRCode: QRCodeModel
