@@ -1,4 +1,4 @@
-/**
+/*
  * @fileoverview
  * - Using the 'QRCode for Javascript library'
  * - Fixed dataset of 'QRCode for Javascript library' for support full-spec.
@@ -8,6 +8,7 @@
  * @see <a href="http://www.d-project.com/" target="_blank">http://www.d-project.com/</a>
  * @see <a href="http://jeromeetienne.github.com/jquery-qrcode/" target="_blank">http://jeromeetienne.github.com/jquery-qrcode/</a>
  */
+
 import {QRCodeModel} from "./QRCodeModel.js";
 import {QRErrorCorrectLevel} from "./QRStructs.js";
 import {QRCodeLimitLength} from "./QRCodeLimitLength.js";
@@ -107,10 +108,6 @@ function _getUTF8Length(sText) {
  */
 export class QRCode {
 
-    /**
-     * @name QRCode.CorrectLevel
-     */
-    private CorrectLevel = QRErrorCorrectLevel;
     private options = {
         width: 256,
         height: 256,
@@ -149,7 +146,6 @@ export class QRCode {
      * @param {Number} [options.height=256]
      * @param {String} [options.colorDark="#000000"]
      * @param {String} [options.colorLight="#ffffff"]
-     * @param {QRCode.CorrectLevel} [options.correctLevel=QRCode.CorrectLevel.H] [L|M|Q|H]
      */
     constructor(element: HTMLElement, options) {
         if (typeof options === 'string') {
