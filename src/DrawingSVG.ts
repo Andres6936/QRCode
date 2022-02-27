@@ -2,20 +2,16 @@ import {Render} from "./IDrawer";
 import {QROptions} from "./QRCode";
 
 export class DrawingSVG implements Render {
-    _el: HTMLElement
-    _htOption: QROptions
+    private readonly element: HTMLElement
+    private readonly options: QROptions
 
-    constructor(el, htOption) {
-        this._el = el;
-        this._htOption = htOption;
+    constructor(element: HTMLElement, options: Readonly<QROptions>) {
+        this.element = element;
+        this.options = options;
     }
 
     draw(oQRCode): void {
-        var _htOption = this._htOption;
-        var _el = this._el;
-        var nCount = oQRCode.getModuleCount();
-        var nWidth = Math.floor(_htOption.width / nCount);
-        var nHeight = Math.floor(_htOption.height / nCount);
+        const nCount = oQRCode.getModuleCount();
 
         this.clear();
 
@@ -30,18 +26,18 @@ export class DrawingSVG implements Render {
             'viewBox': '0 0 ' + String(nCount) + " " + String(nCount),
             'width': '100%',
             'height': '100%',
-            'fill': _htOption.colorLight
+            'fill': this.options.colorLight
         });
         svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", "http://www.w3.org/1999/xlink");
-        _el.appendChild(svg);
+        this.element.appendChild(svg);
 
         svg.appendChild(makeSVG("rect", {
-            "fill": _htOption.colorLight,
+            "fill": this.options.colorLight,
             "width": "100%",
             "height": "100%"
         }));
         svg.appendChild(makeSVG("rect", {
-            "fill": _htOption.colorDark,
+            "fill": this.options.colorDark,
             "width": "1",
             "height": "1",
             "id": "template"
@@ -59,8 +55,8 @@ export class DrawingSVG implements Render {
     };
 
     clear(): void {
-        while (this._el.hasChildNodes())
-            this._el.removeChild(this._el.lastChild);
+        while (this.element.hasChildNodes())
+            this.element.removeChild(this.element.lastChild);
     };
 
     public makeImage(): void {
