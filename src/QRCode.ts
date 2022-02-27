@@ -154,21 +154,9 @@ export class QRCode {
      * @param {Object|String} options The options to render this QR Code
      */
     constructor(element: HTMLElement, options: Readonly<QROptions>) {
-        if (typeof options === 'string') {
-            options = {
-                text: options
-            };
-        }
-
         // Overwrites options
-        if (options) {
-            for (const i in options) {
-                this.options[i] = options[i];
-            }
-        }
-
+        this.options = {...options};
         this.element = element;
-        this.model = null;
 
         if (this.options.useSVG) {
             this.render = new DrawingSVG(this.element, this.options);
@@ -180,10 +168,7 @@ export class QRCode {
             }
         }
 
-
-        if (this.options.text) {
-            this.makeCode(this.options.text);
-        }
+        this.makeCode(this.options.text);
     }
 
     /**
