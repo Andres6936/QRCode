@@ -102,6 +102,8 @@ function _getUTF8Length(sText) {
  * QR code can be divided into up to 16 smaller QR
  * symbols. Information stored in multiple QR code symbols
  * can be reconstructed as a single data symbol.
+ *
+ * @note Version of QR Code 3
  */
 export class QRCode {
 
