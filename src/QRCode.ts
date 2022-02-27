@@ -13,7 +13,7 @@ import {QRCodeModel} from "./QRCodeModel.js";
 import {QRErrorCorrectLevel} from "./QRStructs.js";
 import {QRCodeLimitLength} from "./QRCodeLimitLength.js";
 import {DrawingHack} from "./DrawerHack.js";
-import {_getAndroid, DrawingCanvas} from "./DrawingCanvas.js";
+import {DrawingCanvas} from "./DrawingCanvas.js";
 import {DrawingSVG} from "./DrawingSVG.js";
 import {Render} from "./IDrawer";
 
@@ -130,10 +130,9 @@ export class QRCode {
         text: "QRCode",
     };
 
-    private readonly _android = undefined
-    private _oDrawing: Render
-    private _oQRCode: QRCodeModel
     private readonly element: HTMLElement
+    private render: Render
+    private model: QRCodeModel
 
     /**
      * @class QRCode
@@ -168,17 +167,16 @@ export class QRCode {
             }
         }
 
-        this._android = _getAndroid();
         this.element = element;
-        this._oQRCode = null;
+        this.model = null;
 
         if (this.options.useSVG) {
-            this._oDrawing = new DrawingSVG(this.element, this.options);
+            this.render = new DrawingSVG(this.element, this.options);
         } else {
             if (_isSupportCanvas()) {
-                this._oDrawing = new DrawingCanvas(this.element, this.options);
+                this.render = new DrawingCanvas(this.element, this.options);
             } else {
-                this._oDrawing = new DrawingHack(this.element, this.options);
+                this.render = new DrawingHack(this.element, this.options);
             }
         }
 
@@ -193,32 +191,27 @@ export class QRCode {
      *
      * @param {String} sText link data
      */
-    makeCode(sText: Readonly<string>): void {
-        this._oQRCode = new QRCodeModel(_getTypeNumber(sText, this.options.correctLevel), this.options.correctLevel);
-        this._oQRCode.addData(sText);
-        this._oQRCode.make();
+    public makeCode(sText: Readonly<string>): void {
+        this.model = new QRCodeModel(_getTypeNumber(sText, this.options.correctLevel), this.options.correctLevel);
+        this.model.addData(sText);
+        this.model.make();
         this.element.title = sText;
-        this._oDrawing.draw(this._oQRCode);
+        this.render.draw(this.model);
         this.makeImage();
     }
 
     /**
-     * Make the Image from Canvas element
-     * - It occurs automatically
-     * - Android below 3 doesn't support Data-URI spec.
-     *
-     * @private
+     * Clear the QRCode
      */
-    makeImage(): void {
-        if (typeof this._oDrawing.makeImage == "function" && (!this._android || this._android >= 3)) {
-            this._oDrawing.makeImage();
-        }
+    public clear(): void {
+        this.render.clear();
     };
 
     /**
-     * Clear the QRCode
+     * Make the Image from Canvas element
+     * - It occurs automatically
      */
-    clear(): void {
-        this._oDrawing.clear();
+    private makeImage(): void {
+        this.render.makeImage();
     };
 }
