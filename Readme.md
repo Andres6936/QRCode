@@ -5,7 +5,7 @@ HTML5 Canvas and table tag in DOM. QRCode.js has no dependencies.
 
 ## Basic Usages
 
-```
+```html
 <div id="qrcode"></div>
 <script type="text/javascript">
 new QRCode(document.getElementById("qrcode"), "http://jindo.dev.naver.com/collie");
@@ -14,7 +14,7 @@ new QRCode(document.getElementById("qrcode"), "http://jindo.dev.naver.com/collie
 
 or with some options
 
-```
+```html
 <div id="qrcode"></div>
 <script type="text/javascript">
 var qrcode = new QRCode(document.getElementById("qrcode"), {
@@ -30,7 +30,7 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 
 and you can use some methods
 
-```
+```javascript
 qrcode.clear(); // clear the code.
 qrcode.makeCode("http://naver.com"); // make another code.
 ```
