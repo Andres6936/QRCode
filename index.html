@@ -12,11 +12,12 @@
 <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
 
 <script type="module">
-    import {QRCode} from "./build/QRCode.js";
+    import {QRCode} from "./src/QRCode";
 
     const qrcode = new QRCode(document.getElementById("qrcode"), {
         width: 400,
-        height: 400
+        height: 400,
+        text: document.getElementById("text").value
     });
 
     function makeCode() {
