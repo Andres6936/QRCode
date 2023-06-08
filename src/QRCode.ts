@@ -76,6 +76,39 @@ export interface QROptions {
     useSVG?: boolean,
 }
 
+/**
+ * QR Code encoding is the process of converting data into a format that can
+ * be stored in a QR Code. The data is encoded in a series of black and white
+ * squares, which are arranged in a specific pattern. The pattern is
+ * determined by the type of data being encoded, the amount of data, and the
+ * error correction level.
+ *
+ * There are four types of data that can be encoded in QR Codes:
+ *
+ * - Numeric: This type of data can store up to 7,089 digits.
+ * - Alphanumeric: This type of data can store up to 4,296 alphanumeric
+ *   characters (letters, numbers, and some symbols).
+ * - Kanji: This type of data can store up to 1,817 Kanji characters.
+ * - Byte: This type of data can store any type of data, up to 2,953 bytes.
+ *
+ * The error correction level determines how much data can be lost and still
+ * be able to be decoded. There are four levels of error correction:
+ *
+ * - L: This level provides the least amount of error correction, but it also
+ *   allows for the smallest QR Codes.
+ * - M: This level provides a medium amount of error correction.
+ * - Q: This level provides a good amount of error correction.
+ * - H: This level provides the most error correction, but it also requires
+ *   the largest QR Codes.
+ *
+ * The process of QR Code encoding is as follows:
+ *
+ * 1. The data is converted into a binary format.
+ * 2. The binary data is divided into blocks of 8 bits.
+ * 3. Each block is encoded using a specific algorithm.
+ * 4. The encoded blocks are arranged in a specific pattern.
+ * 5. The pattern is converted into a QR Code image.
+ */
 export class QRCode {
 
     private readonly options: QROptions = {
