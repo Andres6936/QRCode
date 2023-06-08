@@ -28,7 +28,7 @@ export class QRRSBlock {
         return list;
     }
 
-    public static getRsBlockTable(typeNumber: number, errorCorrectLevel): ReadonlyArray<number> | undefined {
+    public static getRsBlockTable(typeNumber: number, errorCorrectLevel: QRErrorCorrectLevel): ReadonlyArray<number> | undefined {
         switch (errorCorrectLevel) {
             case QRErrorCorrectLevel.L:
                 return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];

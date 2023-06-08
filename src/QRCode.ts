@@ -29,7 +29,7 @@ function _isSupportCanvas(): boolean {
  * @param {Number} nCorrectLevel
  * @return {Number} type
  */
-function _getTypeNumber(sText: string, nCorrectLevel: number): number {
+function _getTypeNumber(sText: string, nCorrectLevel: QRErrorCorrectLevel): number {
     let nType = 1;
     const lengthBytesOfUTF8: number = (new TextEncoder().encode(sText)).length;
 
@@ -72,7 +72,7 @@ export interface QROptions {
     typeNumber?: number,
     colorDark?: string,
     colorLight?: string,
-    correctLevel?: number,
+    correctLevel?: QRErrorCorrectLevel,
     useSVG?: boolean,
 }
 

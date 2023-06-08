@@ -33,7 +33,7 @@ export var QRUtil = {
     getPatternPosition: function (typeNumber) {
         return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
     },
-    getMask: function (maskPattern, i, j) {
+    getMask: function (maskPattern: QRMaskPattern, i, j) {
         switch (maskPattern) {
             case QRMaskPattern.PATTERN000:
                 return (i + j) % 2 == 0;
