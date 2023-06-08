@@ -10,7 +10,7 @@
  */
 
 import {QRCodeModel} from "./QRCodeModel";
-import {QRErrorCorrectLevel} from "./QRStructs";
+import {QRErrorCorrectLevel} from "./enums/QRStructs";
 import {QRCodeLimitLength} from "./QRCodeLimitLength";
 import {DrawingHack} from "./DrawerHack";
 import {DrawingCanvas} from "./DrawingCanvas";
