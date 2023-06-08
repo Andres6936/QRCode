@@ -1,6 +1,6 @@
 import {QRMode} from "./enums/QRMode";
 import {QRPolynomial} from "./QRPolynomial";
-import {QRMath} from "./QRMath";
+import {QRMath} from "./math/QRMath";
 import {QRMaskPattern} from "./enums/QRStructs";
 
 export var QRUtil = {

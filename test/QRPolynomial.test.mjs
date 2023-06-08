@@ -1,5 +1,5 @@
 import {QRPolynomial} from "../src/QRPolynomial.js";
-import {QRMath} from "../src/QRMath.js";
+import {QRMath} from "../src/math/QRMath.ts";
 import * as assert from "assert";
 
 describe('Polynomial', function () {
