@@ -1,7 +1,7 @@
 // android 2.x doesn't support Data-URI spec
 import {Render} from "./IDrawer";
-import {QRCodeModel} from "./QRCodeModel";
-import {QROptions} from "./QRCode";
+import {QRCodeModel} from "../QRCodeModel";
+import {QROptions} from "../QRCode";
 
 export function _getAndroid() {
     var android = false;
@@ -103,7 +103,7 @@ export class DrawingCanvas implements Render {
     /**
      * Make the image from Canvas if the browser supports Data URI.
      */
-    makeImage() {
+    public makeImage() {
         if (this._bIsPainted) {
             this.image.onerror = () => {
                 this.supportDataURI = false
@@ -129,7 +129,7 @@ export class DrawingCanvas implements Render {
     /**
      * Clear the QRCode
      */
-    clear() {
+    public clear() {
         this.context2D.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this._bIsPainted = false;
     };

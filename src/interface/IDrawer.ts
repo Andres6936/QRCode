@@ -1,4 +1,4 @@
-import {QRCodeModel} from "./QRCodeModel";
+import {QRCodeModel} from "../QRCodeModel";
 
 export interface Render {
     clear(): void,

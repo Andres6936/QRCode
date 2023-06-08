@@ -1,5 +1,5 @@
 import {Render} from "./IDrawer";
-import {QROptions} from "./QRCode";
+import {QROptions} from "../QRCode";
 
 export class DrawingSVG implements Render {
     private readonly element: HTMLElement
@@ -10,7 +10,7 @@ export class DrawingSVG implements Render {
         this.options = options;
     }
 
-    draw(oQRCode): void {
+    public draw(oQRCode): void {
         const nCount = oQRCode.getModuleCount();
 
         this.clear();
@@ -54,7 +54,7 @@ export class DrawingSVG implements Render {
         }
     };
 
-    clear(): void {
+    public clear(): void {
         while (this.element.hasChildNodes())
             this.element.removeChild(this.element.lastChild);
     };
