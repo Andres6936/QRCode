@@ -31,7 +31,8 @@
   },
   "homepage": "https://github.com/davidshimjs/qrcodejs#readme",
   "dependencies": {
-    "@assemblyscript/loader": "^0.19.20"
+    "@assemblyscript/loader": "^0.19.20",
+    "@master/css": "^1.37.8"
   },
   "devDependencies": {
     "assemblyscript": "^0.19.20",
