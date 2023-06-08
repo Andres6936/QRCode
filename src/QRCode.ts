@@ -31,7 +31,7 @@ function _isSupportCanvas(): boolean {
  */
 function _getTypeNumber(sText: string, nCorrectLevel: number): number {
     let nType = 1;
-    const length = _getUTF8Length(sText);
+    const lengthBytesOfUTF8: number = (new TextEncoder().encode(sText)).length;
 
     for (var i = 0, len = QRCodeLimitLength.length; i <= len; i++) {
         var nLimit = 0;
@@ -51,7 +51,7 @@ function _getTypeNumber(sText: string, nCorrectLevel: number): number {
                 break;
         }
 
-        if (length <= nLimit) {
+        if (lengthBytesOfUTF8 <= nLimit) {
             break;
         } else {
             nType++;
@@ -63,11 +63,6 @@ function _getTypeNumber(sText: string, nCorrectLevel: number): number {
     }
 
     return nType;
-}
-
-function _getUTF8Length(sText) {
-    var replacedText = encodeURI(sText).toString().replace(/\%[0-9a-fA-F]{2}/g, 'a');
-    return replacedText.length + (replacedText.length != sText ? 3 : 0);
 }
 
 export interface QROptions {
