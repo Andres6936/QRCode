@@ -1,8 +1,8 @@
-import {QRRSBlock} from "./QRRSBlock.js";
-import {QR8bitByte} from "./QR8bitByte.js";
-import {QRUtil} from "./QRUtil.js";
-import {QRBitBuffer} from "./QRBitBuffer.js";
-import {QRPolynomial} from "./QRPolynomial.js";
+import {QRRSBlock} from "./QRRSBlock";
+import {QR8bitByte} from "./QR8bitByte";
+import {QRUtil} from "./QRUtil";
+import {QRBitBuffer} from "./QRBitBuffer";
+import {QRPolynomial} from "./QRPolynomial";
 
 export class QRCodeModel {
 

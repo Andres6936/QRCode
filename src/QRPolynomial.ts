@@ -1,4 +1,4 @@
-import {QRMath} from "./QRMath.js";
+import {QRMath} from "./QRMath";
 
 export class QRPolynomial {
     public readonly num;

@@ -9,12 +9,12 @@
  * @see <a href="http://jeromeetienne.github.com/jquery-qrcode/" target="_blank">http://jeromeetienne.github.com/jquery-qrcode/</a>
  */
 
-import {QRCodeModel} from "./QRCodeModel.js";
-import {QRErrorCorrectLevel} from "./QRStructs.js";
-import {QRCodeLimitLength} from "./QRCodeLimitLength.js";
-import {DrawingHack} from "./DrawerHack.js";
-import {DrawingCanvas} from "./DrawingCanvas.js";
-import {DrawingSVG} from "./DrawingSVG.js";
+import {QRCodeModel} from "./QRCodeModel";
+import {QRErrorCorrectLevel} from "./QRStructs";
+import {QRCodeLimitLength} from "./QRCodeLimitLength";
+import {DrawingHack} from "./DrawerHack";
+import {DrawingCanvas} from "./DrawingCanvas";
+import {DrawingSVG} from "./DrawingSVG";
 import {Render} from "./IDrawer";
 
 function _isSupportCanvas(): boolean {

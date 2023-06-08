@@ -13,7 +13,7 @@
 //   http://www.denso-wave.com/qrcode/faqpatent-e.html
 //
 //---------------------------------------------------------------------
-import {QRMode} from "./QRMode.js";
+import {QRMode} from "./QRMode";
 
 export class QR8bitByte {
     public readonly mode = QRMode.MODE_8BIT_BYTE;
