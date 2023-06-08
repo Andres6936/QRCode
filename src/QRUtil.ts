@@ -1,4 +1,4 @@
-import {QRMode} from "./QRMode";
+import {QRMode} from "./enums/QRMode";
 import {QRPolynomial} from "./QRPolynomial";
 import {QRMath} from "./QRMath";
 import {QRMaskPattern} from "./enums/QRStructs";
@@ -62,7 +62,7 @@ export var QRUtil = {
         }
         return a;
     },
-    getLengthInBits: function (mode, type) {
+    getLengthInBits: function (mode: QRMode, type) {
         if (1 <= type && type < 10) {
             switch (mode) {
                 case QRMode.MODE_NUMBER:

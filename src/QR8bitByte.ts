@@ -13,10 +13,10 @@
 //   http://www.denso-wave.com/qrcode/faqpatent-e.html
 //
 //---------------------------------------------------------------------
-import {QRMode} from "./QRMode";
+import {QRMode} from "./enums/QRMode";
 
 export class QR8bitByte {
-    public readonly mode = QRMode.MODE_8BIT_BYTE;
+    public readonly mode: QRMode = QRMode.MODE_8BIT_BYTE;
     private readonly parsedData: Uint8Array;
 
     /**
