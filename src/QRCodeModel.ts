@@ -29,15 +29,14 @@ export class QRCodeModel {
     private static createData(typeNumber: number, errorCorrectLevel, dataList: ReadonlyArray<QR8bitByte>): Array<number> {
         const rsBlocks: Array<QRRSBlock> = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
         const buffer = new QRBitBuffer();
-        for (let i = 0; i < dataList.length; i++) {
-            const data = dataList[i];
+        for (const data of dataList) {
             buffer.put(data.mode, 4);
             buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber));
             data.write(buffer);
         }
         let totalDataCount = 0;
-        for (let i = 0; i < rsBlocks.length; i++) {
-            totalDataCount += rsBlocks[i].dataCount;
+        for (const item of rsBlocks) {
+            totalDataCount += item.dataCount;
         }
         if (buffer.getLengthInBits() > totalDataCount * 8) {
             throw new Error("code length overflow. ("
