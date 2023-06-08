@@ -155,7 +155,7 @@ export class QRCode {
      */
     constructor(element: HTMLElement, options: Readonly<QROptions>) {
         // Overwrites options
-        this.options = {...options};
+        this.options = {...this.options, ...options};
         this.element = element;
 
         if (this.options.useSVG) {
