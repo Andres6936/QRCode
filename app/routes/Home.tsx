@@ -30,7 +30,7 @@ export function Home() {
 
     return (
         <div className={"position:relative flex flex:col"}>
-            <div className={"flex flex:col bg:gray-90 pb:3em"}>
+            <div className={"flex flex:col bg:gray-90 pb:3em bb:1px|solid|#CCC rb:3em"}>
                 <div ref={canvasRef} className={"flex justify-content:center align-items:center w:100% py:1em"}/>
 
                 <div className={"flex flex:col justify-content:center px:2em"}>
