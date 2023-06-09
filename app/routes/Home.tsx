@@ -29,7 +29,7 @@ export function Home() {
     }
 
     return (
-        <div className={"position:relative flex flex:col"}>
+        <div className={"position:relative flex flex:col pb:6em"}>
             <div className={"flex flex:col bg:gray-90 pb:3em bb:1px|solid|#CCC rb:3em"}>
                 <div ref={canvasRef} className={"flex justify-content:center align-items:center w:100% py:1em"}/>
 
@@ -45,6 +45,36 @@ export function Home() {
                             onClick={onCreateCode}>
                         Crear código QR
                     </button>
+                </div>
+            </div>
+
+            <div className={"flex flex:col mt:1em px:2em gap:1.5em"}>
+                <div className={"flex flex:col"}>
+                    <p className={"font:sans"}>Estilo</p>
+                    <div className={"flex flex:row gap:1em"}>
+                        <div className={"w:3em h:3em r:0.6em bg:gray-86"}/>
+                        <div className={"w:3em h:3em r:0.6em bg:gray-86"}/>
+                    </div>
+                </div>
+
+                <div className={"flex flex:col"}>
+                    <p className={"font:sans"}>Color</p>
+                    <div className={"flex flex:row gap:1em"}>
+                        <div className={"w:3em h:3em r:50% bg:black"}/>
+                        <div className={"w:3em h:3em r:50% bg:blue-50"}/>
+                        <div className={"w:3em h:3em r:50% bg:red-50"}/>
+                        <div className={"w:3em h:3em r:50% bg:orange-50"}/>
+                        <div className={"w:3em h:3em r:50% bg:green-50"}/>
+                    </div>
+                </div>
+
+                <div className={"flex flex:col"}>
+                    <p className={"font:sans"}>Tipo de archivo</p>
+                    <select className={"r:0.7rem px:0.5em py:0.5em b:1px|solid|#CCC font-size:1.2em"}>
+                        <option>JPE</option>
+                        <option>PNG</option>
+                        <option>SVG</option>
+                    </select>
                 </div>
             </div>
 
