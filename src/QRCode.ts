@@ -145,7 +145,7 @@ export class QRCode {
      * @param {HTMLElement|String} element target element or 'id' attribute of element.
      * @param {Object|String} options The options to render this QR Code
      */
-    constructor(element: HTMLElement, options: Readonly<QROptions>) {
+    constructor(element: HTMLElement, options: Readonly<Partial<QROptions>>) {
         // Overwrites options
         this.options = {...this.options, ...options};
         this.element = element;

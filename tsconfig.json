@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
-    "module": "ES6",
-    "target": "ES6",
+    "moduleResolution": "Node",
+    "module": "ES2020",
+    "target": "ES2020",
     "sourceMap": true,
-    "outDir": "./build/"
+    "outDir": "./build/",
+    "jsx": "react-jsx",
+    "types": ["vite/client"]
   },
   "include": [
     "./src/**/*", "./app/**/*"

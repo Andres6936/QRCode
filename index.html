@@ -1,46 +1,14 @@
-<!DOCTYPE html>
-<head lang="en">
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cross-Browser QRCode generator for Javascript</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
 </head>
-<body class="flex flex:col">
-<label class="text-align:center font:bold font:sans font-size:2em mb:0.5em" for="text">Write any text</label>
-<input class="r:1rem b:1px|solid|#CCC px:1em py:0.3em font-size:1.2em mb:1em" id="text" type="text" value="http://jindo.dev.naver.com/collie"/>
-
-<div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
-
-<script type="module">
-    import '@master/css';
-    import {QRCode} from "./src/QRCode";
-
-    const qrcode = new QRCode(document.getElementById("qrcode"), {
-        width: 400,
-        height: 400,
-    });
-
-    function makeCode() {
-        const elText = document.getElementById("text");
-
-        if (!elText.value) {
-            alert("Input a text");
-            elText.focus();
-            return;
-        }
-
-        qrcode.makeCode(elText.value);
-    }
-
-    makeCode();
-
-    document.getElementById('text').addEventListener('blur', () => {
-        makeCode();
-    })
-
-    document.getElementById('text').addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-            makeCode();
-        }
-    })
-</script>
+<body class="min-h:100vh min-w:100vw">
+    <div id="root"></div>
+    <script type="module" src="./app/index.tsx"></script>
 </body>
+</html>
