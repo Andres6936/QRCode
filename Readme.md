@@ -1,7 +1,14 @@
 # QRCode.js
 
-QRCode.js is javascript library for making QRCode. QRCode.js supports Cross-browser with
-HTML5 Canvas and table tag in DOM. QRCode.js has no dependencies.
+QRCode is Javascript/Typescript library for making QRCode. QRCode supports 
+Cross-browser with HTML5 Canvas, SVG and table tag in DOM. QRCode has no
+dependencies.
+
+## Screenshot
+
+<p align="center">
+    <img width="414" src="./docs/Screenshoot.png" alt="Screenshot"/>
+</p>
 
 ## Basic Usages
 
