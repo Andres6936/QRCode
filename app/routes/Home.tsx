@@ -1,8 +1,8 @@
-import {Ref, useEffect, useMemo, useRef, useState} from "react";
+import {MutableRefObject, useEffect, useMemo, useRef, useState} from "react";
 import {QRCode} from "../../src/QRCode";
 
 export function Home() {
-    const canvasRef: Ref<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
+    const canvasRef: MutableRefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
     const encoding = useMemo(() => {
         return new QRCode({
             width: 400,
@@ -10,7 +10,7 @@ export function Home() {
         });
     }, [])
 
-    const [value, setValue] = useState<string>('https://jindo.dev.naver.com/collie')
+    const [value, setValue] = useState<string>('https://github.com/Andres6936/QRCode')
 
     useEffect(() => {
         if (canvasRef.current && !canvasRef.current.hasChildNodes()) {
@@ -18,7 +18,26 @@ export function Home() {
         }
     }, [])
 
-    const onCreateCode = () => encoding.drawAt(value, canvasRef.current);
+    const onCreateCode = () => {
+        if (canvasRef.current) {
+            encoding.drawAt(value, canvasRef.current);
+        }
+    }
+
+    const onDownloadCode = () => {
+        if (canvasRef.current) {
+            const canvas = canvasRef.current.getElementsByTagName('canvas');
+            if (canvas.length === 0) {
+                // Not canvas render in div for download
+                return;
+            }
+
+            const link: HTMLAnchorElement = document.createElement('a');
+            link.download = 'Code.png'
+            link.href = canvas.item(0).toDataURL();
+            link.click();
+        }
+    }
 
     return (
         <div className={"position:relative flex flex:col pb:6em"}>
@@ -71,7 +90,7 @@ export function Home() {
             </div>
 
             <div className={"position:fixed bottom:1em left:0 right:0 flex flex:row justify-content:center px:2em"}>
-                <button
+                <button onClick={onDownloadCode}
                     className={"r:1.5rem py:0.5em bg:fuchsia-52 b:none color:white font:bold font-size:1.2em w:21rem"}>
                     Descargar
                 </button>
