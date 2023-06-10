@@ -12,10 +12,10 @@
 import {QRCodeModel} from "./QRCodeModel";
 import {QRErrorCorrectLevel} from "./enums/QRStructs";
 import {QRCodeLimitLength} from "./QRCodeLimitLength";
-import {DrawingHack} from "./interface/DrawerHack";
-import {DrawingCanvas} from "./interface/DrawingCanvas";
-import {DrawingSVG} from "./interface/DrawingSVG";
-import {Render} from "./interface/IDrawer";
+import {DrawingHack} from "./render/DrawerHack";
+import {DrawingCanvas} from "./render/DrawingCanvas";
+import {DrawingSVG} from "./render/DrawingSVG";
+import {Render} from "./render/IDrawer";
 
 function _isSupportCanvas(): boolean {
     return typeof CanvasRenderingContext2D != "undefined";
