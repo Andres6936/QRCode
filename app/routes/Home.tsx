@@ -7,7 +7,7 @@ export function Home() {
 
     useEffect(() => {
         if (canvasRef.current && !canvasRef.current.hasChildNodes()) {
-            const qrcode = new QRCode(canvasRef.current, {
+            const qrcode = new QRCode({
                 width: 400,
                 height: 400,
             });
@@ -18,7 +18,7 @@ export function Home() {
                     return;
                 }
 
-                qrcode.makeCode(value);
+                qrcode.drawAt(value, canvasRef.current);
             }
 
             makeCode();

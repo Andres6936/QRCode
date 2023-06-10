@@ -122,7 +122,6 @@ export class QRCode {
         text: "QRCode",
     };
 
-    private readonly element: HTMLElement
     private render: Render
     private model: QRCodeModel
 
@@ -145,35 +144,26 @@ export class QRCode {
      * @param {HTMLElement|String} element target element or 'id' attribute of element.
      * @param {Object|String} options The options to render this QR Code
      */
-    constructor(element: HTMLElement, options: Readonly<Partial<QROptions>>) {
+    constructor(options: Readonly<Partial<QROptions>>) {
         // Overwrites options
         this.options = {...this.options, ...options};
-        this.element = element;
 
         if (this.options.useSVG) {
-            this.render = new DrawingSVG(this.element, this.options);
+            this.render = new DrawingSVG(this.options);
         } else {
             if (_isSupportCanvas()) {
-                this.render = new DrawingCanvas(this.element, this.options);
+                this.render = new DrawingCanvas(this.options);
             } else {
-                this.render = new DrawingHack(this.element, this.options);
+                this.render = new DrawingHack(this.options);
             }
         }
-
-        this.makeCode(this.options.text);
     }
 
-    /**
-     * Make the QRCode
-     *
-     * @param {String} sText link data
-     */
-    public makeCode(sText: Readonly<string>): void {
+    public drawAt(sText: Readonly<string>, root: HTMLElement): void {
         this.model = new QRCodeModel(_getTypeNumber(sText, this.options.correctLevel), this.options.correctLevel);
         this.model.addData(sText);
         this.model.make();
-        this.element.title = sText;
-        this.render.draw(this.model);
+        this.render.drawAt(this.model, root);
     }
 
     /**

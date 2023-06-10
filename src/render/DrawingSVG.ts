@@ -3,15 +3,15 @@ import {QROptions} from "../QRCode";
 import {QRCodeModel} from "../QRCodeModel";
 
 export class DrawingSVG implements Render {
-    private readonly element: HTMLElement
     private readonly options: QROptions
+    private root: HTMLElement | undefined;
 
-    constructor(element: HTMLElement, options: Readonly<QROptions>) {
-        this.element = element;
+    constructor(options: Readonly<QROptions>) {
         this.options = options;
     }
 
-    public draw(oQRCode: QRCodeModel): void {
+    public drawAt(oQRCode: QRCodeModel, root: HTMLElement): void {
+        this.root = root;
         const nCount = oQRCode.getModuleCount();
 
         this.clear();
@@ -30,7 +30,7 @@ export class DrawingSVG implements Render {
             'fill': this.options.colorLight
         });
         svg.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xlink", "http://www.w3.org/1999/xlink");
-        this.element.appendChild(svg);
+        root.appendChild(svg);
 
         svg.appendChild(makeSVG("rect", {
             "fill": this.options.colorLight,
@@ -56,8 +56,12 @@ export class DrawingSVG implements Render {
     };
 
     public clear(): void {
-        while (this.element.hasChildNodes())
-            this.element.removeChild(this.element.lastChild);
+        if (this.root) {
+            while (this.root.hasChildNodes()) {
+                this.root.removeChild(this.root.lastChild);
+            }
+            this.root = undefined;
+        }
     };
 }
 

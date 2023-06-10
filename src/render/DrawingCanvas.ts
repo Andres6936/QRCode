@@ -28,16 +28,15 @@ export function _getAndroid() {
  * @param {Object} htOption QRCode Options
  */
 export class DrawingCanvas implements Render {
-    private readonly element: HTMLElement;
     private readonly canvas: HTMLCanvasElement
-    private readonly image: HTMLImageElement;
     private readonly options: QROptions;
-    private readonly context2D: CanvasRenderingContext2D;
+    private image: HTMLImageElement;
+    private context2D: CanvasRenderingContext2D;
     private supportDataURI: boolean;
     private _bIsPainted: boolean;
     private _android: boolean;
 
-    constructor(element: HTMLElement, options: Readonly<QROptions>) {
+    constructor(options: Readonly<QROptions>) {
         this._bIsPainted = false;
         this._android = _getAndroid();
 
@@ -45,23 +44,18 @@ export class DrawingCanvas implements Render {
         this.canvas = document.createElement("canvas");
         this.canvas.width = options.width;
         this.canvas.height = options.height;
-        element.appendChild(this.canvas);
-        this.element = element;
+    }
+
+    public drawAt(oQRCode: QRCodeModel, root: HTMLElement) {
+        root.appendChild(this.canvas);
         this.context2D = this.canvas.getContext("2d");
         this._bIsPainted = false;
         this.image = document.createElement("img");
         this.image.alt = "Scan me!";
         this.image.style.display = "none";
-        this.element.appendChild(this.image);
+        root.appendChild(this.image);
         this.supportDataURI = undefined;
-    }
 
-    /**
-     * Draw the QRCode
-     *
-     * @param {QRCode} oQRCode
-     */
-    public draw(oQRCode: QRCodeModel) {
         const nCount = oQRCode.getModuleCount();
         const nWidth = this.options.width / nCount;
         const nHeight = this.options.height / nCount;

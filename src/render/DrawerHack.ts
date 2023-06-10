@@ -3,21 +3,16 @@ import {QROptions} from "../QRCode";
 import {QRCodeModel} from "../QRCodeModel";
 
 export class DrawingHack implements Render {
-    private readonly element: HTMLElement;
     private readonly options: QROptions;
+    private root: HTMLElement | undefined;
 
-    constructor(element: HTMLElement, options: Readonly<QROptions>) {
-        this.element = element;
+    constructor(options: Readonly<QROptions>) {
         this.options = options;
     }
 
+    public drawAt(oQRCode: QRCodeModel, root: HTMLElement) {
+        this.root = root;
 
-    /**
-     * Draw the QRCode
-     *
-     * @param {QRCode} oQRCode
-     */
-    public draw(oQRCode: QRCodeModel) {
         const nCount = oQRCode.getModuleCount();
         const nWidth = Math.floor(this.options.width / nCount);
         const nHeight = Math.floor(this.options.height / nCount);
@@ -34,10 +29,10 @@ export class DrawingHack implements Render {
         }
 
         aHTML.push('</table>');
-        this.element.innerHTML = aHTML.join('');
+        root.innerHTML = aHTML.join('');
 
         // Fix the margin values as real size.
-        const elTable = this.element.childNodes[0] as HTMLTableElement;
+        const elTable = root.childNodes[0] as HTMLTableElement;
         const nLeftMarginTable = (this.options.width - elTable.offsetWidth) / 2;
         const nTopMarginTable = (this.options.height - elTable.offsetHeight) / 2;
 
@@ -50,6 +45,9 @@ export class DrawingHack implements Render {
      * Clear the QRCode
      */
     public clear() {
-        this.element.innerHTML = '';
+        if (this.root) {
+            this.root.innerHTML = '';
+            this.root = undefined;
+        }
     };
 }
