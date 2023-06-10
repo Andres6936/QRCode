@@ -1,27 +1,20 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {QRCode} from "../../src/QRCode";
 
 export function Home() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const encoding = useMemo(() => {
+        return new QRCode({
+            width: 400,
+            height: 400,
+        });
+    }, [])
+
     const [value, setValue] = useState<string>('https://jindo.dev.naver.com/collie')
 
     useEffect(() => {
         if (canvasRef.current && !canvasRef.current.hasChildNodes()) {
-            const qrcode = new QRCode({
-                width: 400,
-                height: 400,
-            });
-
-            function makeCode() {
-                if (value === '') {
-                    alert("Input a text");
-                    return;
-                }
-
-                qrcode.drawAt(value, canvasRef.current);
-            }
-
-            makeCode();
+            encoding.drawAt(value, canvasRef.current);
         }
     }, [])
 
@@ -79,7 +72,8 @@ export function Home() {
             </div>
 
             <div className={"position:fixed bottom:1em left:0 right:0 flex flex:row justify-content:center px:2em"}>
-                <button className={"r:1.5rem py:0.5em bg:fuchsia-52 b:none color:white font:bold font-size:1.2em w:21rem"}>
+                <button
+                    className={"r:1.5rem py:0.5em bg:fuchsia-52 b:none color:white font:bold font-size:1.2em w:21rem"}>
                     Descargar
                 </button>
             </div>
