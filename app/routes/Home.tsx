@@ -78,8 +78,8 @@ export function Home() {
                 </div>
             </div>
 
-            <div className={"position:fixed bottom:1em left:0 right:0 flex flex:col px:2em"}>
-                <button className={"r:1.5rem py:0.5em bg:fuchsia-52 b:none color:white font:bold font-size:1.2em"}>
+            <div className={"position:fixed bottom:1em left:0 right:0 flex flex:row justify-content:center px:2em"}>
+                <button className={"r:1.5rem py:0.5em bg:fuchsia-52 b:none color:white font:bold font-size:1.2em w:21rem"}>
                     Descargar
                 </button>
             </div>
