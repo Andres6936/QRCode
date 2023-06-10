@@ -1,5 +1,6 @@
 import {Render} from "./IDrawer";
 import {QROptions} from "../QRCode";
+import {QRCodeModel} from "../QRCodeModel";
 
 export class DrawingHack implements Render {
     private readonly element: HTMLElement;
@@ -16,7 +17,7 @@ export class DrawingHack implements Render {
      *
      * @param {QRCode} oQRCode
      */
-    public draw(oQRCode) {
+    public draw(oQRCode: QRCodeModel) {
         const nCount = oQRCode.getModuleCount();
         const nWidth = Math.floor(this.options.width / nCount);
         const nHeight = Math.floor(this.options.height / nCount);
@@ -51,8 +52,4 @@ export class DrawingHack implements Render {
     public clear() {
         this.element.innerHTML = '';
     };
-
-    public makeImage(): void {
-
-    }
 }

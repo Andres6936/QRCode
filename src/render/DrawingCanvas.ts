@@ -34,8 +34,8 @@ export class DrawingCanvas implements Render {
     private readonly options: QROptions;
     private readonly context2D: CanvasRenderingContext2D;
     private supportDataURI: boolean;
-    _bIsPainted
-    _android
+    private _bIsPainted: boolean;
+    private _android: boolean;
 
     constructor(element: HTMLElement, options: Readonly<QROptions>) {
         this._bIsPainted = false;
@@ -98,12 +98,6 @@ export class DrawingCanvas implements Render {
         }
 
         this._bIsPainted = true;
-    };
-
-    /**
-     * Make the image from Canvas if the browser supports Data URI.
-     */
-    public makeImage() {
         if (this._bIsPainted) {
             this.image.onerror = () => {
                 this.supportDataURI = false
@@ -118,33 +112,10 @@ export class DrawingCanvas implements Render {
     };
 
     /**
-     * Return whether the QRCode is painted or not
-     *
-     * @return {Boolean}
-     */
-    isPainted() {
-        return this._bIsPainted;
-    };
-
-    /**
      * Clear the QRCode
      */
     public clear() {
         this.context2D.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this._bIsPainted = false;
     };
-
-    /**
-     * @private
-     * @param {Number} nNumber
-     */
-    round(nNumber) {
-        if (!nNumber) {
-            return nNumber;
-        }
-
-        return Math.floor(nNumber * 1000) / 1000;
-    };
-
-
 }

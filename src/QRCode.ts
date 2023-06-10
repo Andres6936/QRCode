@@ -174,7 +174,6 @@ export class QRCode {
         this.model.make();
         this.element.title = sText;
         this.render.draw(this.model);
-        this.makeImage();
     }
 
     /**
@@ -182,13 +181,5 @@ export class QRCode {
      */
     public clear(): void {
         this.render.clear();
-    };
-
-    /**
-     * Make the Image from Canvas element
-     * - It occurs automatically
-     */
-    private makeImage(): void {
-        this.render.makeImage();
     };
 }
