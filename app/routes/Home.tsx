@@ -1,8 +1,8 @@
-import {useEffect, useMemo, useRef, useState} from "react";
+import {Ref, useEffect, useMemo, useRef, useState} from "react";
 import {QRCode} from "../../src/QRCode";
 
 export function Home() {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const canvasRef: Ref<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
     const encoding = useMemo(() => {
         return new QRCode({
             width: 400,
@@ -18,8 +18,7 @@ export function Home() {
         }
     }, [])
 
-    const onCreateCode = () => {
-    }
+    const onCreateCode = () => encoding.drawAt(value, canvasRef.current);
 
     return (
         <div className={"position:relative flex flex:col pb:6em"}>
