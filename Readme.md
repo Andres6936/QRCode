@@ -1,14 +1,22 @@
-# QRCode.js
+# QRCode
 
-QRCode is Javascript/Typescript library for making QRCode. QRCode supports 
-Cross-browser with HTML5 Canvas, SVG and table tag in DOM. QRCode has no
-dependencies.
+QRCode is Javascript/Typescript library for making QRCode (Only encoding). 
+QRCode supports Cross-browser with HTML5 Canvas, SVG and table tag in DOM. 
+QRCode has no dependencies.
 
 ## Screenshot
 
 <p align="center">
     <img width="414" src="./docs/Screenshoot.png" alt="Screenshot"/>
 </p>
+
+### What is QRCode
+
+QR Code encoding is the process of converting data into a format that can
+be stored in a QR Code. The data is encoded in a series of black and white
+squares, which are arranged in a specific pattern. The pattern is
+determined by the type of data being encoded, the amount of data, and the
+error correction level.
 
 ## Basic Usages
 
@@ -49,7 +57,3 @@ IE6~10, Chrome, Firefox, Safari, Opera, Mobile Safari, Android, Windows Mobile, 
 ## License
 
 MIT License
-
-## Contact
-
-twitter @davidshimjs
