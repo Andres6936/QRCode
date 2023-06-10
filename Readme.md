@@ -20,34 +20,27 @@ error correction level.
 
 ## Basic Usages
 
-```html
-<div id="qrcode"></div>
-<script type="text/javascript">
-new QRCode(document.getElementById("qrcode"), "http://jindo.dev.naver.com/collie");
-</script>
+```javascript
+const encode = new QRCode({
+    width: 100,
+    height: 100
+});
+
+encode.drawAt('https://any.text', document.getElementById('root'))
 ```
 
 or with some options
 
-```html
-<div id="qrcode"></div>
-<script type="text/javascript">
-var qrcode = new QRCode(document.getElementById("qrcode"), {
-	text: "http://jindo.dev.naver.com/collie",
+```javascript
+var encode = new QRCode({
 	width: 128,
 	height: 128,
 	colorDark : "#000000",
 	colorLight : "#ffffff",
-	correctLevel : QRCode.CorrectLevel.H
+	correctLevel : QRErrorCorrectLevel.H
 });
-</script>
-```
 
-and you can use some methods
-
-```javascript
-qrcode.clear(); // clear the code.
-qrcode.makeCode("http://naver.com"); // make another code.
+encode.drawAt('https://any.text', document.getElementById("root"))
 ```
 
 ## Browser Compatibility
